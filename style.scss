@@ -1,0 +1,81 @@
+/*-- scss:rules --*/
+
+/* Allow drop down menu to expand beyond card body */
+.bslib-card, .tab-content, .tab-pane, .card-body {
+  overflow: visible !important;
+}
+.bslib-value-box {
+  .value-box-showcase .bi {
+    font-size: clamp(0.01em, 15cqw, 3em) !important;
+  }
+  .value-box-area {
+    padding-top: 0px !important;
+    padding-bottom: 20px !important;
+    padding-left: 7cqw !important;
+    padding-right: 7cqw !important;
+    margin: 0 !important;
+  }
+  .value-box-title {
+    font-size: clamp(0.1em, 7cqw, 1em) !important;
+  }
+  .value-box-value {
+    font-size: clamp(0.1em, 10cqw, 2em) !important;
+  }
+}
+.bslib-value-box:not(.showcase-bottom) .value-box-grid .value-box-area {
+  justify-content: middle !important;
+}
+.bg-fws-tan {
+  color: #67532f; 
+  background-color: #EED8B3;
+  border-color: #EED8B3;
+}
+.bg-fws-yel {
+  color: #7d5e03;
+  background-color: #FFD660;
+  border-color: #FFD660;
+}
+.bg-fws-ora {
+  color: #6f4400;
+  background-color: #F2B028;
+  border-color: #F2B028;
+}
+.bg-fws-blu {
+  color: #d6e5ee; 
+  background-color: #007AC3;
+  border-color: #007AC3;
+}
+.card a {
+  color: #007AC3; 
+  text-decoration: underline; 
+}
+.card a:hover {
+  color: #67A6EB; 
+  text-decoration: underline; 
+  }
+.card a:visited {
+  color: #007AC3; 
+  text-decoration: underline;
+}
+.card a:active {
+  color: #007AC3; 
+  text-decoration: underline;
+}
+.navbar-nav a.active {
+  color: #FFD660 !important; 
+}
+.navbar-nav a:hover {
+  color: #FFFFFF !important; 
+}
+/* General tab link styling */
+.nav-tabs .nav-link {
+  color: #007AC3; 
+}
+.nav-tabs .nav-link.active {
+  color: #67A6EB !important;
+  text-decoration: underline !important;
+  background-color: #FFFFFF !important;
+}
+.nav-tabs .nav-link:hover {
+  color: #67A6EB; 
+}
