@@ -1,0 +1,48 @@
+[
+  {
+    "name": "hip-viz",
+    "organization": "U.S. Fish and Wildlife Service",
+    "description": "Harvest Information Program (HIP) registration dashboard",
+    "version": "v0.1.0",
+    "status": "Development",
+
+    "permissions": {
+      "usageType": "openSource",
+      "licenses": [
+        {
+          "name": "Public Domain, CC0-1.0",
+          "URL": "https://github.com/USFWS/hip-viz/blob/main/LICENSE"
+        }
+      ]
+    },
+
+    "homepageURL": "https://github.com/USFWS/hip-viz",
+    "downloadURL": "https://github.com/USFWS/hip-viz/archive/refs/heads/main.zip",
+    "disclaimerURL": "https://github.com/USFWS/hip-viz/blob/main/DISCLAIMER.md",
+    "repositoryURL": "https://github.com/USFWS/hip-viz.git",
+    "vcs": "git",
+
+    "laborHours": 80,
+
+    "tags": [
+      "usfws",
+      "migratorybird"
+    ],
+
+    "languages": [
+      "R",
+      "json",
+      "md",
+      "scss"
+    ],
+
+    "contact": {
+      "name": "Abby Walter",
+      "email": "abby_walter@fws.gov"
+    },
+
+    "date": {
+      "metadataLastUpdated": "2025-12-02"
+    }
+  }
+]
