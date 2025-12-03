@@ -45,6 +45,16 @@
   background-color: #007AC3;
   border-color: #007AC3;
 }
+.bg-theme-bad {
+  .value-box-value {
+    color: #D55E00; 
+  }
+}
+.bg-theme-good {
+  .value-box-value {
+    color: #009E73; 
+  }
+}
 .card a {
   color: #007AC3; 
   text-decoration: underline; 
