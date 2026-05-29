@@ -4,6 +4,71 @@
 .bslib-card, .tab-content, .tab-pane, .card-body {
   overflow: visible !important;
 }
+/* Eliminate white space above figs and tables in card body */
+.card-body.bslib-gap-spacing.html-fill-item.html-fill-container:not(.special_nav) {
+  padding-top: 0 !important;
+}
+/* Style for the FWS logo */
+/*.navbar-nav > li > a, .navbar-brand { 
+  padding-top: 4px !important; 
+  padding-bottom: 0 !important; 
+  height: 25px;
+}*/
+
+/* Reduce height of navbar ribbon */
+.navbar.navbar-default.navbar-static-top {
+  padding-top: 10px;
+  padding-bottom: 2px;
+  min-height: 40px;
+}
+/* Compact nav links inside the navbar */
+.navbar .nav-link {
+  --bs-nav-link-padding-y: 0.25rem; /* default is ~.5rem */
+  line-height: 1.2;                 /* optional: helps tighten visual height */
+}
+/* Style for the title and navbar (puts navigation links under title) */
+.navbar > .container-fluid {
+  display: flex;          /* ensure flex context */
+  flex-direction: column; /* simplest way to force two rows */
+  align-items: stretch;   /* let children take full width */
+}
+.navbar .navbar-brand {
+  font-size: clamp(0.1em, 8.5cqw, 1.5em) !important;
+  align-self: flex-start;   /* left align brand */
+  padding-bottom: .25rem;   /* small space above links */
+}
+/* Top nav bar link styling */
+.navbar-nav a {
+  &.active {
+    color: #FFFFFF !important;
+  }
+
+  &:hover {
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+  }
+}
+/* Nav row: works whether links are in .navbar-collapse or .navbar-nav */
+.navbar .navbar-collapse,
+.navbar .navbar-nav {
+  width: 100%;
+}
+/* Undo auto right-alignment */
+.navbar .navbar-nav {
+  margin-left: 0 !important;
+  justify-content: flex-start; /* left align links */
+}
+/* Keep large-screen spacing tidy */
+.navbar .navbar-nav.mb-lg-0 { 
+  margin-bottom: 0 !important;
+}
+/* Toggler button: place visually with nav links on small screens */
+.navbar .navbar-toggler {
+  align-self: flex-start;
+  margin-bottom: .25rem;
+}
+
+/* Value box style */
 .bslib-value-box {
   .value-box-showcase .bi {
     font-size: clamp(0.01em, 15cqw, 3em) !important;
@@ -25,6 +90,7 @@
 .bslib-value-box:not(.showcase-bottom) .value-box-grid .value-box-area {
   justify-content: middle !important;
 }
+/* Value box color themes */
 .bg-fws-tan {
   color: #67532f; 
   background-color: #EED8B3;
@@ -45,47 +111,59 @@
   background-color: #007AC3;
   border-color: #007AC3;
 }
-.bg-theme-bad {
-  .value-box-value {
-    color: #D55E00; 
-  }
-}
-.bg-theme-good {
-  .value-box-value {
-    color: #009E73; 
-  }
-}
+/* Card body link styling */
 .card a {
-  color: #007AC3; 
-  text-decoration: underline; 
-}
-.card a:hover {
-  color: #67A6EB; 
-  text-decoration: underline; 
+  color: #007AC3;
+  text-decoration: underline;
+
+  &:hover {
+    color: #67A6EB;
   }
-.card a:visited {
-  color: #007AC3; 
-  text-decoration: underline;
 }
-.card a:active {
-  color: #007AC3; 
-  text-decoration: underline;
-}
-.navbar-nav a.active {
-  color: #FFD660 !important; 
-}
-.navbar-nav a:hover {
-  color: #FFFFFF !important; 
-}
-/* General tab link styling */
+/* Tab link styling */
 .nav-tabs .nav-link {
-  color: #007AC3; 
+  color: #007AC3;
+
+  /* The active tab */
+  &.active {
+    color: #67A6EB !important;
+    text-decoration: underline !important;
+    background-color: #FFFFFF !important;
+  }
+
+  /* The hover state */
+  &:hover {
+    color: #67A6EB;
+  }
 }
-.nav-tabs .nav-link.active {
-  color: #67A6EB !important;
-  text-decoration: underline !important;
-  background-color: #FFFFFF !important;
+/* Datatable download buttons styling */
+.btn-secondary {
+  margin-top: 1em;
+  background-color: #F8F8F8 !important;
+  border-color: #D2D2D2 !important;
+  color: #000000 !important;
+  
+  &:hover {
+    background-color: #d6e5ee !important;
+  }
 }
-.nav-tabs .nav-link:hover {
-  color: #67A6EB; 
+/* bsicon color definitions */
+.icon-positive-color {
+  color: #009E73;
+}
+.icon-negative-color {
+  color: #D55E00;
+}
+/* Float datatable download buttons to right side */
+div.dt-buttons {
+  float: right;
+}
+/* Spacer required to keep datatable download buttons inside the card border */
+p.spacer {
+  color: #FFFFFF !important;
+  padding-bottom: 15px !important;
+}
+/* Vertically center the datatable headers */
+table.dataTable thead th {
+  vertical-align: top;
 }
