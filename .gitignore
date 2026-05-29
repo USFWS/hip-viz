@@ -1,7 +1,7 @@
-# Archive of testing code
-archive/
+# Exclusions
+EXCLUDE*.R
 
-# Internal app maintenance
+# Internal app maintenance for rsconnect
 maintenance.R
 
 # History files
@@ -53,3 +53,5 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+.Rproj.user
+.positai
