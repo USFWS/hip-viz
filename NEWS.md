@@ -1,6 +1,4 @@
-# hip-viz (dev version)
+# hip-viz 0.1.0
 
-## Major changes & new features
-
-## Minor changes / bug fixes
+Launched with 2025-2026 Harvest Information Program registration summary data.
 
