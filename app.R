@@ -474,7 +474,7 @@ colors <-
 link_github <- 
   tags$a(shiny::icon("github"), 
          "", 
-         href = "https://github.com/USFWS/hip-dashboard/", 
+         href = "https://github.com/USFWS/hip-viz/", 
          target = "_blank")
 
 # Create a function to magically format numbers
