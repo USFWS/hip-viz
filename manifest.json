@@ -3170,10 +3170,10 @@
       "checksum": "c2f83c567b2662f663fc957ba52b71fe"
     },
     "app.R": {
-      "checksum": "45d01da013bbe943392947ffd3ad40fc"
+      "checksum": "8c4c7e471dd5e314b78ef966f927228d"
     },
     "code.json": {
-      "checksum": "7e107f1178214a94850a3aef54a3c187"
+      "checksum": "554373ceddfe624e4bb4eaabefb647b6"
     },
     "contact.md": {
       "checksum": "c66bd222c0717f75f32dc768a48148aa"
@@ -3229,9 +3229,6 @@
     "data/2025-2026/db_state_totals_future.csv": {
       "checksum": "9061c9c77dc2e2d63fbbc1eb6bf64911"
     },
-    "data/2025-2026/db_state_totals_without_carryover.csv": {
-      "checksum": "eff6f5c6df30e80bfa3c5df69a973a51"
-    },
     "data/2025-2026/db_state_tots.csv": {
       "checksum": "dbc0de7ff3c6d2665adc49ab594e684c"
     },
@@ -3241,251 +3238,53 @@
     "data/2025-2026/db_tots.csv": {
       "checksum": "1d453e232e3ad073f98d791477231a85"
     },
-    "data/2025-2026/db_tots_2023-2024.csv": {
-      "checksum": "4be3b850dad6c3dc66cc473a670e237b"
-    },
     "data/2025-2026/db_tots_2024-2025.csv": {
       "checksum": "8d71390954a22c42b0e45deeb038efb2"
-    },
-    "data/2025-2026/db_tots_carryover.csv": {
-      "checksum": "63afec14c37c5a7c316d891f34ebaee0"
-    },
-    "data/2025-2026/digital_contactability.csv": {
-      "checksum": "0ff6dfcf573901a01aabb814e5c63aea"
-    },
-    "data/2025-2026/DL0800_dropped.csv": {
-      "checksum": "229d9656ccdaa0c50cd4cc3ed6bb0bcc"
-    },
-    "data/2025-2026/DL0800_error_reasons.csv": {
-      "checksum": "417e59a970b511da175983c67543646f"
-    },
-    "data/2025-2026/DL0800_errors.csv": {
-      "checksum": "5aa531c98ea4ed72672c4a4f0b855528"
     },
     "data/2025-2026/DL0800_sums.csv": {
       "checksum": "fecfa6563d41417c4b25d914b92d6f0c"
     },
-    "data/2025-2026/DL0800_totals.csv": {
-      "checksum": "af25042d6cdedaa2127ac316fdecd10e"
-    },
-    "data/2025-2026/DL0802_dropped.csv": {
-      "checksum": "3ec75c3f4d73fde3aa4a7caf7b414179"
-    },
-    "data/2025-2026/DL0802_error_reasons.csv": {
-      "checksum": "93b6f9714bd5a5cc021c0295acbbaa7a"
-    },
-    "data/2025-2026/DL0802_errors.csv": {
-      "checksum": "3414ad56de9d7fd965df3a0acacdef15"
-    },
     "data/2025-2026/DL0802_sums.csv": {
       "checksum": "2d1232022d582e11527950053b6e4b9c"
-    },
-    "data/2025-2026/DL0802_totals.csv": {
-      "checksum": "d86be691546be102b73b9c79df52a6c6"
-    },
-    "data/2025-2026/DL0901_dropped.csv": {
-      "checksum": "5e988e755f8df0455ab3a92fc59145c1"
-    },
-    "data/2025-2026/DL0901_error_reasons.csv": {
-      "checksum": "5a30df0f2f93332729b89c60fed94c54"
-    },
-    "data/2025-2026/DL0901_errors.csv": {
-      "checksum": "b41ef0551bad3172b2e720999654cb6f"
     },
     "data/2025-2026/DL0901_sums.csv": {
       "checksum": "2db25258d35620dd6815a14454e821b9"
     },
-    "data/2025-2026/DL0901_totals.csv": {
-      "checksum": "8b54eb375bedfa04792db728c86a8ce7"
-    },
-    "data/2025-2026/DL0902_dropped.csv": {
-      "checksum": "a4c577eff6575286d5987f20925d3abd"
-    },
-    "data/2025-2026/DL0902_error_reasons.csv": {
-      "checksum": "949f5e92d2dc267c11c0321e978f00a9"
-    },
-    "data/2025-2026/DL0902_errors.csv": {
-      "checksum": "07ce10c2f61c6d13a8fc3f716f3d65a1"
-    },
     "data/2025-2026/DL0902_sums.csv": {
       "checksum": "551dbaac319af7dede2ac9d7fe9ac23f"
-    },
-    "data/2025-2026/DL0902_totals.csv": {
-      "checksum": "a020568723175cbcd36f5c5e506e825a"
-    },
-    "data/2025-2026/DL1101_dropped.csv": {
-      "checksum": "11aeaa596e1aba90320a39c264646fac"
-    },
-    "data/2025-2026/DL1101_error_reasons.csv": {
-      "checksum": "90f5ad764a086f76ad2093e7c2f17c8c"
-    },
-    "data/2025-2026/DL1101_errors.csv": {
-      "checksum": "0406b9cbec96485d2f05849b47d55563"
     },
     "data/2025-2026/DL1101_sums.csv": {
       "checksum": "d6a5a8112bb6c642d8918735d3202947"
     },
-    "data/2025-2026/DL1101_totals.csv": {
-      "checksum": "6830a241b1bc943b6cb3234be6657c08"
-    },
-    "data/2025-2026/DL1102_dropped.csv": {
-      "checksum": "7e734863bb33c29fa4ce68ca9077d622"
-    },
-    "data/2025-2026/DL1102_error_reasons.csv": {
-      "checksum": "72958285ebb6226e19f8d3c9486a588a"
-    },
-    "data/2025-2026/DL1102_errors.csv": {
-      "checksum": "cc5a3e3a575f243a57fd80ae6f52e42a"
-    },
     "data/2025-2026/DL1102_sums.csv": {
       "checksum": "de99619f37d115c855a2b9800defa078"
-    },
-    "data/2025-2026/DL1102_totals.csv": {
-      "checksum": "5f661ae96df9ae5af70574182de1d6ac"
-    },
-    "data/2025-2026/DL1201_dropped.csv": {
-      "checksum": "aa94c5134e60b9b3581fece5b32c94da"
-    },
-    "data/2025-2026/DL1201_error_reasons.csv": {
-      "checksum": "2a339efd7fa75d65751c67ec2d85beaa"
-    },
-    "data/2025-2026/DL1201_errors.csv": {
-      "checksum": "c83f0310a5b6edf5e1232a2a8e8c6943"
     },
     "data/2025-2026/DL1201_sums.csv": {
       "checksum": "2f25feaf10aa2b6ac097100033c54cdf"
     },
-    "data/2025-2026/DL1201_totals.csv": {
-      "checksum": "e52d5969b2938a81e649345ca1a937b0"
-    },
-    "data/2025-2026/DL1202_dropped.csv": {
-      "checksum": "68a1b543f24703faf53abe33e43749d3"
-    },
-    "data/2025-2026/DL1202_error_reasons.csv": {
-      "checksum": "f6e477e5f505e2387cb4cc7fd3034743"
-    },
-    "data/2025-2026/DL1202_errors.csv": {
-      "checksum": "be5ebe321685f0494b57dedfcbce42a9"
-    },
     "data/2025-2026/DL1202_sums.csv": {
       "checksum": "c9595c1ada40c4f3c66d21f07075e946"
-    },
-    "data/2025-2026/DL1202_totals.csv": {
-      "checksum": "c64718bb5deac1049a1c6fa6dcb46e4c"
-    },
-    "data/2025-2026/DL1301_bins.csv": {
-      "checksum": "b50a0c9421f6d15fd17cbf0f6f142a87"
-    },
-    "data/2025-2026/DL1301_dropped.csv": {
-      "checksum": "9219fd0a09e47e15b705bd96a838003a"
-    },
-    "data/2025-2026/DL1301_error_reasons.csv": {
-      "checksum": "4cf04fd92b003f8f23f66195006537a3"
-    },
-    "data/2025-2026/DL1301_errors.csv": {
-      "checksum": "90a708732f410cf23cdc9b6da8428f9f"
     },
     "data/2025-2026/DL1301_sums.csv": {
       "checksum": "4134c35ee70f66420d926ac40a8152c8"
     },
-    "data/2025-2026/DL1301_totals.csv": {
-      "checksum": "765388e8989922d7dbae97e7ca9eb1b9"
-    },
-    "data/2025-2026/DL1302_bins.csv": {
-      "checksum": "4131f03cdaf0bd847c6c2abb951207bb"
-    },
-    "data/2025-2026/DL1302_dropped.csv": {
-      "checksum": "ff36e6225dbfa429e65597ac27564266"
-    },
-    "data/2025-2026/DL1302_error_reasons.csv": {
-      "checksum": "1a3b757e3f1574985a87f442ec220783"
-    },
-    "data/2025-2026/DL1302_errors.csv": {
-      "checksum": "e62cb7448a3f1219b7bab1e3afdd67e7"
-    },
     "data/2025-2026/DL1302_sums.csv": {
       "checksum": "8294ffb83955981fe5ca40e9c4d3fe98"
-    },
-    "data/2025-2026/DL1302_totals.csv": {
-      "checksum": "15806b269ee2ce65d499113438a0cbdb"
-    },
-    "data/2025-2026/DL1401_bins.csv": {
-      "checksum": "f5ff8180555e9db97ed722136bec864f"
-    },
-    "data/2025-2026/DL1401_dropped.csv": {
-      "checksum": "5512805b24e3e5d3f2eb2c68cd2ad541"
-    },
-    "data/2025-2026/DL1401_error_reasons.csv": {
-      "checksum": "c7b3e6c0a0ecd549fcac6f66818d8487"
-    },
-    "data/2025-2026/DL1401_errors.csv": {
-      "checksum": "3f275e1e7fadde2376b6de6437c8721a"
     },
     "data/2025-2026/DL1401_sums.csv": {
       "checksum": "937f13886f3c1d5b213c092a8dcd31ae"
     },
-    "data/2025-2026/DL1401_totals.csv": {
-      "checksum": "9e6bc0c3abb6cd872370e20a298d1ad6"
-    },
-    "data/2025-2026/DL1402_bins.csv": {
-      "checksum": "0802ea0b910c54cdd431b40f23655018"
-    },
-    "data/2025-2026/DL1402_dropped.csv": {
-      "checksum": "2ff1e28755b1626d1d3866fb7b7ceb34"
-    },
-    "data/2025-2026/DL1402_error_reasons.csv": {
-      "checksum": "2354b0be10b8b0ccaeab64d2284f2340"
-    },
-    "data/2025-2026/DL1402_errors.csv": {
-      "checksum": "29145a5248d70048718027bd0af4a5b6"
-    },
     "data/2025-2026/DL1402_sums.csv": {
       "checksum": "d68f89fb16f6ab382533a665e7259d53"
-    },
-    "data/2025-2026/DL1402_totals.csv": {
-      "checksum": "5131782ea7b6cfcbe198878c56b30971"
-    },
-    "data/2025-2026/DL1501_bins.csv": {
-      "checksum": "5d68cdda6b0f31e0e7fe3af1701e9237"
-    },
-    "data/2025-2026/DL1501_dropped.csv": {
-      "checksum": "b0e92b387b11473614454ac1d811700f"
-    },
-    "data/2025-2026/DL1501_error_reasons.csv": {
-      "checksum": "614f49a492989fda4e01210ff438d51c"
-    },
-    "data/2025-2026/DL1501_errors.csv": {
-      "checksum": "cb7eb462c459e01508e5a34e2151f767"
     },
     "data/2025-2026/DL1501_sums.csv": {
       "checksum": "6070aa0437dc79c00f1d97b29bf04c7c"
     },
-    "data/2025-2026/DL1501_totals.csv": {
-      "checksum": "644003bb58cdb4c5aaa870c81edcd168"
-    },
-    "data/2025-2026/DL1502_bins.csv": {
-      "checksum": "d419002c9a4508c207f59fed94ea26a9"
-    },
-    "data/2025-2026/DL1502_dropped.csv": {
-      "checksum": "f4513ff473c0b5e013847288ccef3238"
-    },
-    "data/2025-2026/DL1502_error_reasons.csv": {
-      "checksum": "ffea4ee8fda15082df710f28d66f5bcc"
-    },
-    "data/2025-2026/DL1502_errors.csv": {
-      "checksum": "116198b80dbff8710b5aaf2161d14a5c"
-    },
     "data/2025-2026/DL1502_sums.csv": {
       "checksum": "c84b86eb80a8ff9d73fc971fcd28275a"
     },
-    "data/2025-2026/DL1502_totals.csv": {
-      "checksum": "27450f5b477382aa345d6e3e3b07a3a0"
-    },
     "data/2025-2026/issue_date_summary.csv": {
       "checksum": "9517e1ffd177196c0336fe8c3e9e2274"
-    },
-    "data/2025-2026/permits.csv": {
-      "checksum": "e6236b9070d54c4c57f95408642544a2"
     },
     "DISCLAIMER.md": {
       "checksum": "bbc62c1c9c11628df11a4fb9d6422794"
@@ -3503,7 +3302,7 @@
       "checksum": "5f0c71457df0f821ff979afc9d2d5a91"
     },
     "NEWS.md": {
-      "checksum": "23b56557f4e4849ff37abb249821d233"
+      "checksum": "0d3483eef4adf1ee5f6a03fbfa42e067"
     },
     "README.md": {
       "checksum": "34e25d20a8dbcc7e35b161cfe0398b59"
