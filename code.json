@@ -22,7 +22,7 @@
     "repositoryURL": "https://github.com/USFWS/hip-viz.git",
     "vcs": "git",
 
-    "laborHours": 80,
+    "laborHours": 120,
 
     "tags": [
       "usfws",
@@ -42,7 +42,7 @@
     },
 
     "date": {
-      "metadataLastUpdated": "2025-12-02"
+      "metadataLastUpdated": "2026-05-29"
     }
   }
 ]
