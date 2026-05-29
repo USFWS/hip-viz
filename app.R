@@ -461,8 +461,9 @@ overunder_fl <-
   )
   
 # Calculate how many days are left in the season
-days_left <- lubridate::mdy("03/11/2026") - lubridate::today()
-
+days_left_actual <- lubridate::mdy("03/11/2026") - lubridate::today()
+days_left <- ifelse(days_left_actual < 0, 0, days_left_actual)
+  
 # Set colors for figures 
 colors <-
   c(ggthemes::colorblind_pal()(7)[6], #"#0072B2", blue
