@@ -1,5 +1,9 @@
 # Harvest Information Program registration dashboard
 
+# libraries ---------------------------------------------------------------
+
+library(markdown)
+
 # setup -------------------------------------------------------------------
 
 # Define data path
