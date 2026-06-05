@@ -315,12 +315,15 @@ lag <-
   dplyr::left_join(
     sched |> dplyr::rename(dl_cycle = `Download Cycle`),
     by = "dl_cycle") |> 
-  dplyr::mutate(
-    dl_date = lubridate::mdy(Date)
-  ) |> 
+  dplyr::mutate(dl_date = lubridate::mdy(Date)) |> 
   dplyr::select(dl_state, issue_date, dl_date) |> 
   dplyr::mutate(
-    lag = dl_date - issue_date) |> 
+    lag = 
+      ifelse(
+        dl_date == lubridate::mdy(sched$Date[2]), 
+        0, 
+        dl_date - issue_date)
+    ) |> 
   # Don't include some wacky data
   dplyr::filter(lag > -5) |> 
   # If the issue date is the day before the download date, change the lag to 0
