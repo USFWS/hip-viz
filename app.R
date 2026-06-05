@@ -21,22 +21,6 @@ state_lookup <-
     state_name = state.name[state.name != "Hawaii"],
     state_abbr = state.abb[state.abb != "HI"])
 
-# Atlantic Flyway states
-af <- 
-  c("ME", "NH", "VT", "MA", "RI", "CT", "NY", "PA", "NJ", "MD", "DE", "WV",
-    "VA", "NC", "SC", "GA", "FL")
-
-# Mississippi Flyway States
-mf <- 
-  c("AL", "MS", "LA", "TN", "KY", "OH", "IL", "IA", "IN", "MI", "MN", "WI",
-    "MO", "AR")
-
-# Central Flyway states - contains MT, WY, CO, NM
-cf <- c("TX", "OK", "KS", "NE", "SD", "ND", "MT", "WY", "CO", "NM")
-
-# Pacific Flyway states
-pf <- c("WA", "ID", "OR", "CA", "NV", "AZ", "UT", "AK")
-
 # HIP download schedule/dates for 2024
 sched_last_year <-
   tibble::tibble(
@@ -181,16 +165,8 @@ season_sums <-
     by = c("dl_state", "dl_cycle")) |> 
   dplyr::mutate(
     retained = round(retained, 1),
-    fl = 
-      dplyr::case_when(
-        .data$dl_state %in% af ~ "Atlantic Flyway",
-        .data$dl_state %in% mf ~ "Mississippi Flyway",
-        .data$dl_state %in% cf ~ "Central Flyway",
-        .data$dl_state %in% pf ~ "Pacific Flyway",
-        TRUE ~ NA_character_
-      ),
-    dl_cycle = as.character(.data$dl_cycle)
-  ) 
+    dl_cycle = as.character(.data$dl_cycle)) |> 
+  migbirdHIP:::assignFlyway("dl_state", "fl")
 
 # Acceptance rate table
 state_summary_table <-
@@ -251,6 +227,12 @@ sketch <-
 
 # Define the most recent download
 todays_dl <- dplyr::slice_tail(db_totals, n = 1)$dl_cycle
+
+# Define the most recent git commit
+resp <- httr::GET("https://api.github.com/repos/USFWS/hip-viz/commits")
+commits <- jsonlite::fromJSON(rawToChar(resp$content))
+latest_commit <- commits$commit$author$date[1]
+latest_commit_date <- as.Date(latest_commit)
 
 # Sum total registrations by state
 big_data_by_state2 <-
@@ -371,15 +353,8 @@ lag_summary <-
 
 lag_summary_fl <- 
   lag |> 
-  dplyr::mutate(
-    fl =
-      dplyr::case_when(
-        .data$dl_state %in% af ~ "Atlantic Flyway",
-        .data$dl_state %in% mf ~ "Mississippi Flyway",
-        .data$dl_state %in% cf ~ "Central Flyway",
-        .data$dl_state %in% pf ~ "Pacific Flyway",
-        TRUE ~ NA_character_),
-    greater_than_30 = ifelse(lag > 30, 1, 0)) |> 
+  migbirdHIP:::assignFlyway("dl_state", "fl") |> 
+  dplyr::mutate(greater_than_30 = ifelse(lag > 30, 1, 0)) |> 
   dplyr::summarize(
     mean_lag = as.numeric(mean(lag)),
     max_lag = as.numeric(max(lag)),
@@ -431,14 +406,7 @@ overunder <-
 overunder_fl <-
   overunder |> 
   dplyr::select(dl_state, past_cumulative, current_cumulative) |> 
-  dplyr::mutate(
-    fl =
-      dplyr::case_when(
-        .data$dl_state %in% af ~ "Atlantic Flyway",
-        .data$dl_state %in% mf ~ "Mississippi Flyway",
-        .data$dl_state %in% cf ~ "Central Flyway",
-        .data$dl_state %in% pf ~ "Pacific Flyway",
-        TRUE ~ NA_character_)) |> 
+  migbirdHIP:::assignFlyway("dl_state", "fl") |> 
   dplyr::summarize(
     fl_past_cumulative = sum(past_cumulative),
     fl_current_cumulative = sum(current_cumulative),
@@ -570,9 +538,9 @@ ui <-
           div(
             paste0(
               "Last updated: ",
-              lubridate::month(lubridate::now(), label = TRUE), " ", 
-              lubridate::day(lubridate::now()), ", ", 
-              lubridate::year(lubridate::now())),
+              lubridate::month(latest_commit_date, label = TRUE), " ", 
+              lubridate::day(latest_commit_date), ", ", 
+              lubridate::year(latest_commit_date)),
             style = "position: absolute; bottom: 15px;"
             )
           ),
