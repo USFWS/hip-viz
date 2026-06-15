@@ -1,5 +1,4 @@
 # Harvest Information Program registration dashboard
-
 # libraries ---------------------------------------------------------------
 
 library(markdown)
@@ -70,23 +69,23 @@ sched_last_year <-
 sched <-
   tibble::tribble(
     ~`Download Cycle`,                ~Date,
-               "0800",    "August 13, 2025",
-               "0802",    "August 27, 2025",
-               "0901", "September 10, 2025",
-               "0902", "September 24, 2025",
-               # Furlough
-               #"1001",    "October 9, 2025",
-               #"1002",   "October 23, 2025",
-               "1101",  "November 13, 2025",
-               "1102",  "November 20, 2025",
-               "1201",   "December 4, 2025",
-               "1202",  "December 18, 2025",
-               "1301",   "January 14, 2026",
-               "1302",   "January 28, 2026",
-               "1401",  "February 11, 2026",
-               "1402",  "February 25, 2026",
-               "1501",     "March 11, 2026",
-               "1502",     "March 25, 2026"
+    "0800",    "August 13, 2025",
+    "0802",    "August 27, 2025",
+    "0901", "September 10, 2025",
+    "0902", "September 24, 2025",
+    # Furlough
+    #"1001",    "October 9, 2025",
+    #"1002",   "October 23, 2025",
+    "1101",  "November 13, 2025",
+    "1102",  "November 20, 2025",
+    "1201",   "December 4, 2025",
+    "1202",  "December 18, 2025",
+    "1301",   "January 14, 2026",
+    "1302",   "January 28, 2026",
+    "1401",  "February 11, 2026",
+    "1402",  "February 25, 2026",
+    "1501",     "March 11, 2026",
+    "1502",     "March 25, 2026"
   ) |> 
   dplyr::mutate(cyc = lubridate::mdy(Date) |> format("%b %d"))
 
@@ -144,7 +143,7 @@ db_state_totals <-
 db_state_totals_future <-
   readr::read_csv(
     data_files[stringr::str_detect(data_files, "db_state_totals_future.csv")]
-    ) |> 
+  ) |> 
   dplyr::mutate(dl_cycle = as.character(dl_cycle)) |> 
   dplyr::left_join(
     sched |> dplyr::rename(dl_cycle = `Download Cycle`),
@@ -323,7 +322,7 @@ lag <-
         dl_date == lubridate::mdy(sched$Date[2]), 
         0, 
         dl_date - issue_date)
-    ) |> 
+  ) |> 
   # Don't include some wacky data
   dplyr::filter(lag > -5) |> 
   # If the issue date is the day before the download date, change the lag to 0
@@ -430,11 +429,11 @@ overunder_fl <-
         "icon-positive-color",
         "icon-negative-color")
   )
-  
+
 # Calculate how many days are left in the season
 days_left_actual <- lubridate::mdy("03/11/2026") - lubridate::today()
 days_left <- ifelse(days_left_actual < 0, 0, days_left_actual)
-  
+
 # Set colors for figures 
 colors <-
   c(ggthemes::colorblind_pal()(7)[6], #"#0072B2", blue
@@ -453,54 +452,9 @@ link_github <-
          href = "https://github.com/USFWS/hip-viz/", 
          target = "_blank")
 
-# Create a function to magically format numbers
-magic_number <-
-  function(x) {
-    
-    a_thousand <- 1000
-    ten_thousand <- 10000
-    thousands <- 999999
-    a_million <- 1000000
-    a_billion <- 1000000000
-    
-    if (x > thousands & x < a_billion) {
-      # Millions labeler
-      scales::label_number(
-        accuracy = 0.01, 
-        scale_cut = scales::cut_short_scale())(x)
-    } else if (x >= 999500 & x < a_million) {
-      "999K"
-    } else if (x >= ten_thousand & x < a_million) {
-      # Thousands labeler
-      scales::label_number(
-        accuracy = 1, 
-        scale_cut = scales::cut_short_scale())(x)
-    } else if (x >= a_thousand & x < ten_thousand) {
-      scales::label_number(
-        accuracy = 0.1, 
-        scale_cut = scales::cut_short_scale())(x)
-    } else if (x > 0 & x < a_thousand) {
-      x
-    } else {
-      "ERROR"
-    }
-  }
-
-# Test magic_number() function
-# purrr::map(
-#   c(1, 10, 100, 999, 1000, 1200, 1900, 9900, 9999,
-#     10000, 10100, 15321, 43256, 99999, 100000, 
-#     101000, 145234, 456789, 499999, 500000, 501000,
-#     678923, 789456, 899000, 989000, 999000, 999499,
-#     999500, 999999, 1000000, 1000100, 1010000,
-#     1234567, 1567890, 1700300, 9234100, 9999999,
-#     10000000, 15000000, 99123456),
-#   \(x) magic_number(x)
-# )
-
 # ui ----------------------------------------------------------------------
 
-# Define UI for application that draws a histogram
+# Define UI
 ui <- 
   bslib::page_navbar(
     fillable = TRUE,
@@ -871,6 +825,7 @@ server <- function(input, output) {
           ordering = FALSE,
           columnDefs = 
             list(
+              list(className = 'dt-head-right', targets = c(1, 2, 3, 4)),
               list(className = 'dt-body-right', targets = c(1, 2, 3, 4))
             ),
           buttons =
