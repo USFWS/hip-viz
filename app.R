@@ -445,72 +445,60 @@ colors <-
     ggthemes::colorblind_pal()(7)[7]  #"#D55E00", red
   )
 
-# Create a link to the github repository
-link_github <- 
-  tags$a(shiny::icon("github"), 
-         "", 
-         href = "https://github.com/USFWS/hip-viz/", 
-         target = "_blank")
-
 # ui ----------------------------------------------------------------------
 
 # Define UI
 ui <- 
-  bslib::page_navbar(
-    fillable = TRUE,
-    fillable_mobile = TRUE,
+  bslib::page_fillable(
+    # Theme
     theme = 
       bslib::bs_theme(version = 5, preset = "flatly") |> 
         bslib::bs_add_rules(sass::sass_file("style.scss")),
-    navbar_options = bslib::navbar_options(underline = TRUE),
-    title = tags$span(
-      tags$img(
-        src = "fws.svg", 
-        style = "height: 40px;", 
-        class = "me-2 align-middle"),
-      tags$span(
-        class = "align-middle", 
-        "Harvest Information Program Registrations 2025–2026")
-    ),
-    bslib::nav_panel(
-      title = "", 
-      bslib::layout_column_wrap(
-        style = bslib::css(grid_template_columns = "1fr 4fr"),
-        bslib::layout_column_wrap(
-          width = 1,
-          fill = FALSE,
-          bslib::card(
-            bslib::card_header("View"),
-            bslib::card_body(
-              class = "special_nav",
-              shiny::radioButtons(
-                "panel_selection",
-                label = NULL,
-                choices = c("About", "Total", "State", "Flyway"),
-                selected = "Total"),
-              shiny::uiOutput("dynamic_dropdown")
-            )
-          )
-          ,
-          div(
-            paste0(
-              "Last updated: ",
-              lubridate::month(latest_commit_date, label = TRUE), " ", 
-              lubridate::day(latest_commit_date), ", ", 
-              lubridate::year(latest_commit_date)),
-            style = "position: absolute; bottom: 15px;"
-            )
-          ),
-        # Use as_fill_carrier to magically make all of the panels expand to fit
-        # a large browser window; did not find another way to achieve this
-        bslib::as_fill_carrier(
-          shiny::uiOutput("dynamic_panel")
-          )
+    # Header
+    div(
+      class = "d-flex align-items-center justify-content-between p-2 border-bottom",
+      span(
+        img(src = "fws.svg", style = "height: 80px;", class = "me-2 align-middle"),
+        span(
+          class = "viz_title",
+          "Harvest Information Program Registrations 2025–2026"
+        )
       )
+    ),
+    # Body
+    bslib::layout_column_wrap(
+      style = bslib::css(grid_template_columns = "1fr 4fr"),
+      # Menu
+      bslib::layout_column_wrap(
+        width = 1,
+        fill = FALSE,
+        bslib::card(
+          bslib::card_header("View"),
+          bslib::card_body(
+            class = "special_nav",
+            radioButtons(
+              "panel_selection", NULL,
+              choices = c("About", "Total", "State", "Flyway"),
+              selected = "Total"
+            ),
+            uiOutput("dynamic_dropdown")
+          )
+        ),
+        # Last updated
+        div(
+          paste0(
+            "Last updated: ",
+            lubridate::month(latest_commit_date, label = TRUE), " ",
+            lubridate::day(latest_commit_date), ", ",
+            lubridate::year(latest_commit_date)
+          ),
+          style = "position: absolute; bottom: 15px;"
+        )
       ),
-    bslib::nav_spacer(),
-    bslib::nav_item(link_github)
+      # Main panel
+      uiOutput("dynamic_panel")
     )
+  )
 
 # server ------------------------------------------------------------------
 
@@ -519,19 +507,13 @@ server <- function(input, output) {
   
   output$dynamic_panel <- renderUI({
     if (input$panel_selection == "About") {
-      bslib::layout_column_wrap(
+      bslib::page_fillable(
+        fillable_mobile = TRUE,
         bslib::card(
           bslib::card_header("About"),
           bslib::card_body(
             class = "special_nav",
             shiny::includeMarkdown("about.md")
-          )
-        ),
-        bslib::card(
-          bslib::card_header("Contact"),
-          bslib::card_body(
-            class = "special_nav",
-            shiny::includeMarkdown("contact.md")
           )
         )
       )
