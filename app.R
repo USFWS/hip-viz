@@ -473,7 +473,7 @@ ui <-
         "Harvest Information Program Registrations 2025–2026")
     ),
     bslib::nav_panel(
-      title = "HIP", 
+      title = "", 
       bslib::layout_column_wrap(
         style = bslib::css(grid_template_columns = "1fr 4fr"),
         bslib::layout_column_wrap(
@@ -486,7 +486,7 @@ ui <-
               shiny::radioButtons(
                 "panel_selection",
                 label = NULL,
-                choices = c("Total", "State", "Flyway"),
+                choices = c("About", "Total", "State", "Flyway"),
                 selected = "Total"),
               shiny::uiOutput("dynamic_dropdown")
             )
@@ -508,10 +508,17 @@ ui <-
           )
       )
       ),
-    bslib::nav_panel(
-      title = "About",
-      fillable = TRUE,
-      fillable_mobile = TRUE,
+    bslib::nav_spacer(),
+    bslib::nav_item(link_github)
+    )
+
+# server ------------------------------------------------------------------
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  
+  output$dynamic_panel <- renderUI({
+    if (input$panel_selection == "About") {
       bslib::layout_column_wrap(
         bslib::card(
           bslib::card_header("About"),
@@ -525,21 +532,11 @@ ui <-
           bslib::card_body(
             class = "special_nav",
             shiny::includeMarkdown("contact.md")
-            )
+          )
         )
-        )
-      ),
-    bslib::nav_spacer(),
-    bslib::nav_item(link_github)
-    )
-
-# server ------------------------------------------------------------------
-
-# Define server logic required to draw a histogram
-server <- function(input, output) {
-  
-  output$dynamic_panel <- renderUI({
-    if (input$panel_selection == "Total") {
+      )
+      
+    } else if (input$panel_selection == "Total") {
       
       # Totals UI
       
