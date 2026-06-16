@@ -7,6 +7,7 @@ library(markdown)
 
 # Define data path
 data_path <- paste0(here::here(), "/data/2025-2026/")
+data_path_past <- paste0(here::here(), "/data/2024-2025/")
 
 # List data files
 data_files <- list.files(data_path, full.names = TRUE)
@@ -304,7 +305,11 @@ mean_big_data_by_flyway <-
     .by = "fl"
   )
 
-# Select all of the issue dates for each download and state
+# Summary of last season's issue dates for each state
+issue_date_summary_past <- 
+  readr::read_csv(paste0(data_path_past, "issue_date_summary_2024.csv"))
+
+# Current season issue dates for each download and state
 issue_date_summary <- 
   readr::read_csv(paste0(data_path, "issue_date_summary.csv"))
 
@@ -578,6 +583,10 @@ server <- function(input, output) {
           bslib::navset_card_tab(
             title = input$stateChosen,
             bslib::nav_spacer(),
+            bslib::nav_panel(
+              "Overview",
+              plotly::plotlyOutput("state_overview_plot")
+            ),
             bslib::nav_panel(
               "Submission",
               plotly::plotlyOutput("state_plot")
@@ -944,6 +953,55 @@ server <- function(input, output) {
       
     })
   
+  dataByStateIssuance <- 
+    shiny::reactive({
+      
+      # Get the state abbreviation for the chosen state name input
+      stateChosen_abbr <- 
+        state_lookup$state_abbr[state_lookup$state_name == input$stateChosen]
+      
+      # Issue dates (with gaps)
+      raw_dates <- 
+        issue_date_summary |> 
+        dplyr::filter(dl_state == stateChosen_abbr) |> 
+        dplyr::count(issue_date) |> 
+        dplyr::mutate(name = "Current season")
+      
+      # All issue dates
+      dplyr::tibble(
+        issue_date = 
+          seq(min(raw_dates$issue_date),
+              max(raw_dates$issue_date), 
+              by = "days")) |> 
+        dplyr::left_join(raw_dates, by = "issue_date") |> 
+        dplyr::mutate(
+          n = tidyr::replace_na(n, 0),
+          name = tidyr::replace_na(name, "Current season")
+        )
+      
+    })
+  
+  dataByStateIssuancePast <- 
+    shiny::reactive({
+      
+      # Get the state abbreviation for the chosen state name input
+      stateChosen_abbr <- 
+        state_lookup$state_abbr[state_lookup$state_name == input$stateChosen]
+      
+      # Find the earliest issue date allowed and use it to filter the data to
+      # reduce x-axis stretching
+      min_issue <-
+        migbirdHIP:::REF_DATES |>
+        dplyr::filter(state == stateChosen_abbr) |> 
+        dplyr::pull(issue_start)
+      
+      issue_date_summary_past |> 
+        dplyr::filter(dl_state == stateChosen_abbr) |> 
+        dplyr::filter(issue_date >= min_issue - lubridate::days(365)*2) |> 
+        dplyr::mutate(name = "Last season")
+      
+    })
+  
   output$cumulative_plot <- plotly::renderPlotly({
     
     cumulative_plot <- 
@@ -995,6 +1053,60 @@ server <- function(input, output) {
           ggplot2::element_text(angle = 45, vjust = 1, hjust = 1))
     
     plotly::ggplotly(cumulative_plot, tooltip = "text")
+  })
+  
+  output$state_overview_plot <- plotly::renderPlotly({
+    
+    state_overview_plot <- 
+      ggplot2::ggplot() +
+      ggplot2::geom_line(
+        data = dataByStateIssuancePast(),
+        ggplot2::aes(
+          x = .data$issue_date + lubridate::days(365),
+          y = .data$n,
+          color = .data$name,
+          group = .data$name,
+          text = paste0("<b>Category:</b> ", .data$name, "<br>",
+                        "<b>Cycle date:</b> ", 
+                        format(.data$issue_date, "%B %d, %Y"), "<br>",
+                        "<b>Registrations issued:</b> ",
+                        format.default(.data$n, big.mark = ",")
+          )
+        )) +
+      ggplot2::geom_line(
+        data = dataByStateIssuance(),
+        ggplot2::aes(
+          x = .data$issue_date, 
+          y = .data$n, 
+          color = .data$name,
+          group = .data$name,
+          text = paste0("<b>Category:</b> ", .data$name, "<br>",
+                        "<b>Cycle date:</b> ", 
+                        format(.data$issue_date, "%B %d, %Y"), "<br>",
+                        "<b>Registrations issued:</b> ",
+                        format.default(.data$n, big.mark = ",")
+          )
+        )) +
+      ggplot2::labs(
+        x = "Issue date", 
+        y = "Number of registrations",
+        color = "",
+        linewidth = "") +
+      ggplot2::scale_y_continuous(label = scales::comma) +
+      ggplot2::scale_x_date(date_breaks = "2 months", date_labels = "%b") +
+      ggplot2::scale_color_manual(
+        values = c("Last season" = "#F2B028",
+                   "Current season" = colors[1])) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(
+        axis.text.x = 
+          ggplot2::element_text(angle = 45, vjust = 1, hjust = 1))
+    
+    o_state <- plotly::ggplotly(state_overview_plot, tooltip = "text")
+  
+    o_state |> 
+      plotly::layout(
+        legend = list(orientation = "h", xanchor = "center", x = 0.5, y = -0.5)) 
   })
   
   output$fly_web <- plotly::renderPlotly({
@@ -1063,7 +1175,6 @@ server <- function(input, output) {
     
     fig 
   })
-  
   
   output$lag_plot <- plotly::renderPlotly({
     
