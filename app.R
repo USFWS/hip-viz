@@ -577,6 +577,7 @@ server <- function(input, output) {
           style = bslib::css(grid_template_columns = "3fr 1fr"),
           bslib::navset_card_tab(
             title = input$stateChosen,
+            bslib::nav_spacer(),
             bslib::nav_panel(
               "Submission",
               plotly::plotlyOutput("state_plot")

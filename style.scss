@@ -7,13 +7,13 @@
 
 /* Fortmat title */
 .app_title {
-  font-size: 1.9rem;   
+  font-size: 1.7rem;   
   font-weight: 600;
   line-height: 1.2;
 }
 
 /* Fortmat title */
-.app_title {
+.app_subtitle {
   font-size: 1.25rem;
   line-height: 1.2;
 }
@@ -72,6 +72,7 @@
   background-color: #007AC3;
   border-color: #007AC3;
 }
+
 /* Card body link styling */
 .card a {
   color: #007AC3;
@@ -85,6 +86,7 @@
 /* Card tab link styling */
 .nav-tabs .nav-link {
   color: #007AC3;
+  padding: 8px 16px;
 
   /* The active tab */
   &.active {
