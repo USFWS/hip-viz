@@ -6,10 +6,16 @@
 }
 
 /* Fortmat title */
-.viz_title {
-  font-size: 1.75rem;   // adjust as needed
-  font-weight: 600;     // optional
-  line-height: 1.2;     // optional for tighter spacing
+.app_title {
+  font-size: 1.75rem;   
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Fortmat title */
+.app_title {
+  font-size: 1.25rem;
+  line-height: 1.2;
 }
 
 /* Allow drop down menu to expand beyond card body */

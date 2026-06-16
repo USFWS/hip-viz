@@ -450,20 +450,25 @@ colors <-
 # Define UI
 ui <- 
   bslib::page_fillable(
+    # Browser window title
+    title = "USFWS Harvest Information Program Dashboard",
+    fillable_mobile = TRUE,
     # Theme
     theme = 
       bslib::bs_theme(version = 5, preset = "flatly") |> 
         bslib::bs_add_rules(sass::sass_file("style.scss")),
     # Header
     div(
-      class = "d-flex align-items-center justify-content-between p-2 border-bottom",
-      span(
-        img(src = "fws.svg", style = "height: 80px;", class = "me-2 align-middle"),
-        span(
-          class = "viz_title",
-          "Harvest Information Program Registrations 2025–2026"
+      class = "app-header d-flex align-items-center p-2 border-bottom",
+      img(src = "fws.svg", style = "height: 80px;", class = "me-3"),
+      div(
+        div(
+          class = "d-flex flex-column",
+          div(class = "app_title", "Harvest Information Program Registrations 2025–2026"),
+          div(class = "app_subtitle", "U.S. Fish & Wildlife Service • Migratory Bird Program")
         )
       )
+         
     ),
     # Body
     bslib::layout_column_wrap(
@@ -513,8 +518,8 @@ server <- function(input, output) {
           bslib::card_header("About"),
           bslib::card_body(
             class = "special_nav",
-            shiny::includeMarkdown("about.md")
-          )
+            shiny::includeMarkdown("about.md")),
+          height = "100%"
         )
       )
       
@@ -558,7 +563,8 @@ server <- function(input, output) {
         ),
         bslib::card(
           bslib::card_header("Cumulative HIP Registrations 2025-2026"),
-          bslib::card_body(plotly::plotlyOutput("cumulative_plot"))
+          bslib::card_body(plotly::plotlyOutput("cumulative_plot")),
+          height = "100%"
         )
       )
     } else if (input$panel_selection == "State") {
@@ -567,6 +573,7 @@ server <- function(input, output) {
       bslib::page_fillable(
         fillable_mobile = TRUE,
         bslib::layout_column_wrap(
+          height = "100%",
           style = bslib::css(grid_template_columns = "3fr 1fr"),
           bslib::navset_card_tab(
             title = input$stateChosen,
@@ -582,7 +589,7 @@ server <- function(input, output) {
             bslib::nav_panel(
               "Tardiness",
               plotly::plotlyOutput("lag_plot")
-            ),
+            )
             ),
           bslib::layout_column_wrap(
             width = 1,
@@ -660,6 +667,7 @@ server <- function(input, output) {
       bslib::page_fillable(
         fillable_mobile = TRUE,
         bslib::layout_column_wrap(
+          height = "100%",
           style = bslib::css(grid_template_columns = "3fr 1fr"),
           bslib::card(
             bslib::card_header(input$flyw),
