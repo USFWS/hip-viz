@@ -532,6 +532,36 @@ ui <-
 # Define server logic required to draw a histogram
 server <- function(input, output) {
   
+  shiny::observe({ 
+    shiny::showModal( 
+      shiny::modalDialog( 
+        title = "Legend definitions", 
+        easy_close = TRUE, 
+        size = "l",
+        div(
+          style = "max-height: 400px; overflow-y: auto; padding-right: 10px;",
+          p(strong("Submitted"),  "- Number of registrations uploaded."),
+          p(strong("Accepted 2025"), 
+            "- Registrations accepted and sample eligible for the current",
+            "2025-2026 hunting season. The number of registrations accepted",
+            "may be less than the number of registrations submitted, because",
+            "registrations are dropped if they are missing hunter contact",
+            "information, have bad bag values, or posess other major errors."),
+          p(strong("Accepted 2026"), 
+            "- Registrations accepted for the upcoming 2026-2027 hunting",
+            "season. These registrations will be sample eligible next season."),
+          p(strong("Carryover"), 
+            "- Registrations accepted the previous season for the current",
+            "season; e.g., the", em("Accepted 2026"), "registrations will show",
+            "as ", em("Carryover"), "in the 2026-2027 season. This category",
+            "only applies to states with overlapping issue start and end dates."
+            )
+          )
+      ) 
+    ) 
+  }) |> 
+    shiny::bindEvent(input$show) 
+  
   output$dynamic_panel <- renderUI({
     if (input$panel_selection == "About") {
       bslib::page_fillable(
@@ -606,7 +636,13 @@ server <- function(input, output) {
             ),
             bslib::nav_panel(
               "Submission",
-              plotly::plotlyOutput("state_plot")
+              plotly::plotlyOutput("state_plot"),
+              shiny::actionButton(
+                "show", 
+                label = "Legend definitions",
+                icon = bsicons::bs_icon("info-circle"),
+                width = "33%"),
+              class = "submission_tab"
               ),
             bslib::nav_panel(
               "Acceptance",
@@ -647,29 +683,29 @@ server <- function(input, output) {
             bslib::value_box(
               title = 
                 shiny::span(
-                  "Acceptance rate",
-                  bslib::tooltip(
-                    bsicons::bs_icon("info-circle"),
-                    "Proportion of registrations accepted."
-                    )
-                ),
-              showcase = bsicons::bs_icon("clipboard-check"),
-              value = 
-                paste0(big_data_by_state2$acceptance_text[big_data_by_state2$state_name == input$stateChosen],
-                       "%")
-            ),
-            bslib::value_box(
-              title = 
-                shiny::span(
                   "Submission rate",
                   bslib::tooltip(
                     bsicons::bs_icon("info-circle"),
-                    "Proportion of download cycle deadlines met."
+                    "Proportion of data upload deadlines met."
                   )
                 ),
               showcase = bsicons::bs_icon("download"),
               value = 
                 paste0(big_data_by_state2$participation[big_data_by_state2$state_name == input$stateChosen],
+                       "%")
+            ),
+            bslib::value_box(
+              title = 
+                shiny::span(
+                  "Acceptance rate",
+                  bslib::tooltip(
+                    bsicons::bs_icon("info-circle"),
+                    "Proportion of registrations accepted."
+                  )
+                ),
+              showcase = bsicons::bs_icon("clipboard-check"),
+              value = 
+                paste0(big_data_by_state2$acceptance_text[big_data_by_state2$state_name == input$stateChosen],
                        "%")
             ),
             bslib::value_box(
@@ -738,21 +774,6 @@ server <- function(input, output) {
             bslib::value_box(
               title = 
                 shiny::span(
-                  "Acceptance rate",
-                  bslib::tooltip(
-                    bsicons::bs_icon("info-circle"),
-                    "Average proportion of registrations accepted."
-                  )
-                ),
-              showcase = bsicons::bs_icon("clipboard-check"),
-              value = 
-                paste0(
-                  mean_big_data_by_flyway$mean_acceptance[mean_big_data_by_flyway$fl == input$flyw], 
-                  "%")
-            ),
-            bslib::value_box(
-              title = 
-                shiny::span(
                   "Submission rate",
                   bslib::tooltip(
                     bsicons::bs_icon("info-circle"),
@@ -763,6 +784,21 @@ server <- function(input, output) {
               value = 
                 paste0(
                   mean_big_data_by_flyway$mean_participation[mean_big_data_by_flyway$fl == input$flyw], 
+                  "%")
+            ),
+            bslib::value_box(
+              title = 
+                shiny::span(
+                  "Acceptance rate",
+                  bslib::tooltip(
+                    bsicons::bs_icon("info-circle"),
+                    "Average proportion of registrations accepted."
+                  )
+                ),
+              showcase = bsicons::bs_icon("clipboard-check"),
+              value = 
+                paste0(
+                  mean_big_data_by_flyway$mean_acceptance[mean_big_data_by_flyway$fl == input$flyw], 
                   "%")
             ),
             bslib::value_box(

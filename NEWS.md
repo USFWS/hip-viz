@@ -4,6 +4,7 @@
 
 - Switch from `bslib::page_navbar()` to `bslib::page_fillable()`, moving the `About` page link to the left menu and combining the `about.md` and `contact.md` contents into one markdown file.
 - Create state `Overview` tab with line plot of registrations by issue date, showing data for current season and last season.
+- Added a modal dialog window to the state `Submission` tab to define legend categories in more detail.
 
 ## Minor updates
 
@@ -19,6 +20,7 @@
     - `Current cycle` KPI box label switched to `Latest upload`
     - `Registrations added` KPI box label switched to `New registrations`
 - Added description to flyway radar chart.
+- Registrations issued during furlough and received in subsequent two upload cycles are not considered tardy.
 
 # hip-viz 0.1.0
 

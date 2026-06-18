@@ -79,6 +79,18 @@
   border-color: #007AC3;
 }
 
+/* Action button */
+.btn.action-button {
+  font-size: clamp(0.1em, 7cqw, .9em) !important;
+  border: none;
+  padding: 5px 5px;
+  transition: background-color 0.3s ease;
+  display: block;       
+  margin-top: 0px !important;
+  margin-left: auto;    
+  margin-right: auto;   
+}
+
 /* Card body link styling */
 .card a {
   color: #007AC3;
