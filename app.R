@@ -681,7 +681,17 @@ server <- function(input, output) {
           style = bslib::css(grid_template_columns = "3fr 1fr"),
           bslib::card(
             bslib::card_header(input$flyw),
-            bslib::card_body(plotly::plotlyOutput("fly_web"))
+            bslib::card_body(
+              class = "special_nav",
+              p(
+                paste("The radar chart below displays performance metrics for",
+                      "every state in the flyway.",# Every state is a spoke.",
+                      "The closer the blue area (acceptance rate) and orange",
+                      "area (submission rate) are to the outside edge, the",
+                      "better. Hover over points for details.", 
+                      sep = " "),
+                class = "text_description"),
+              plotly::plotlyOutput("fly_web"))
           ),
           bslib::layout_column_wrap(
             width = 1,
@@ -729,7 +739,7 @@ server <- function(input, output) {
                   "Submission rate",
                   bslib::tooltip(
                     bsicons::bs_icon("info-circle"),
-                    "Average proportion of download cycle deadlines met."
+                    "Average proportion of data upload deadlines met."
                   )
                 ),
               showcase = bsicons::bs_icon("download"),

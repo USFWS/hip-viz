@@ -14,6 +14,11 @@
 - Move `magic_number()` helper function to its own script file.
 - Increase size of title and FWS logo, add subtitle.
 - Reduce padding on state navigation tabs, and push them to the right side to accommodate a new overview tab.
+- Label clarity
+    - Replace `Cycle Date` labels with `Upload Date`
+    - `Current cycle` KPI box label switched to `Latest upload`
+    - `Registrations added` KPI box label switched to `New registrations`
+- Added description to flyway radar chart.
 
 # hip-viz 0.1.0
 

@@ -18,6 +18,12 @@
   line-height: 1.2;
 }
 
+/* Format figure descriptions */
+.special_nav .text_description {
+  font-size: clamp(0.1em, 7cqw, .9em) !important;
+  line-height: 1.2;
+}
+
 /* Allow drop down menu to expand beyond card body */
 .bslib-card, .tab-content, .tab-pane, .card-body {
   overflow: visible !important;
