@@ -2,7 +2,8 @@
 # libraries ---------------------------------------------------------------
 
 library(markdown)
-
+`%within%` <- lubridate::`%within%`
+  
 # setup -------------------------------------------------------------------
 
 # Define data path
@@ -321,13 +322,29 @@ lag <-
     by = "dl_cycle") |> 
   dplyr::mutate(dl_date = lubridate::mdy(Date)) |> 
   dplyr::select(dl_state, issue_date, dl_date) |> 
+  # Set all lag for first download to 0
+  # dplyr::mutate(
+  #   lag = 
+  #     ifelse(
+  #       dl_date == lubridate::mdy(sched$Date[2]), 
+  #       0, 
+  #       dl_date - issue_date)
+  # ) |> 
+  # For 2025-2026 only...
+  # Set all lag for first download to 0
+  # Set all lag for first AND second download after furlough to 0
   dplyr::mutate(
     lag = 
-      ifelse(
-        dl_date == lubridate::mdy(sched$Date[2]), 
-        0, 
-        dl_date - issue_date)
-  ) |> 
+      dplyr::case_when(
+        dl_date == lubridate::mdy(sched$Date[2]) ~ 0,
+        dl_date %in% 
+          c(lubridate::mdy(sched$Date[5]), lubridate::mdy(sched$Date[6])) &
+          issue_date %within% 
+          lubridate::interval(
+            lubridate::mdy("9/22/2025"), lubridate::mdy("11/20/2025")) ~ 0, 
+        .default = as.double(dl_date - issue_date)
+      )
+  ) |>
   # Don't include some wacky data
   dplyr::filter(lag > -5) |> 
   # If the issue date is the day before the download date, change the lag to 0
