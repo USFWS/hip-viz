@@ -200,7 +200,7 @@ state_summary_table <-
   ) |> 
   dplyr::select(
     state_name,
-    `Cycle date` = "cyc",
+    `Upload date` = "cyc",
     `Submitted registrations` = "raw_n",
     `Accepted registrations (current)` = "n_db",
     `Accepted registrations (future)` = "n_future",
@@ -214,7 +214,7 @@ sketch <-
       class = 'display',
       thead(
         tr(
-          th(rowspan = 2, 'Cycle date'),
+          th(rowspan = 2, 'Upload date'),
           th(rowspan = 2, 'Submitted'),
           th(class = 'dt-center', colspan = 2, 'Accepted'),
           th(rowspan = 2, 'Acceptance rate')
@@ -542,13 +542,13 @@ server <- function(input, output) {
             value = days_left
           ),
           bslib::value_box(
-            title = "Current cycle",
+            title = "Latest upload",
             showcase = bsicons::bs_icon("calendar-week"),
             theme = "fws-yel",
             value = sched$cyc[sched$`Download Cycle` == as.character(todays_dl)]
           ),
           bslib::value_box(
-            title = "Registrations added",
+            title = "New registrations",
             showcase = bsicons::bs_icon("person-plus"),
             theme = "fws-ora",
             value = 
@@ -1014,7 +1014,7 @@ server <- function(input, output) {
           group = .data$name, 
           color = .data$name,
           text = paste0("<b>Category: </b> Last season <br>",
-                        "<b>Cycle date:</b> ", .data$Date, "<br>",
+                        "<b>Upload date:</b> ", .data$Date, "<br>",
                         "<b>Cumulative registrations:</b> ", 
                         format.default(.data$value, big.mark = ",")
           )),
@@ -1028,7 +1028,7 @@ server <- function(input, output) {
           group = .data$name, 
           color = .data$name,
           text = paste0("<b>Category: </b> Current season <br>",
-                        "<b>Cycle date:</b> ", .data$Date, "<br>",
+                        "<b>Upload date:</b> ", .data$Date, "<br>",
                         "<b>Cumulative registrations:</b> ", 
                         format.default(.data$value, big.mark = ",")
                         
@@ -1036,7 +1036,7 @@ server <- function(input, output) {
         linewidth = 2,
         alpha = 0.8) +
       ggplot2::labs(
-        x = "Cycle date", 
+        x = "Upload date", 
         y = "Number of registrations",
         color = "",
         linewidth = "") +
@@ -1067,7 +1067,7 @@ server <- function(input, output) {
           color = .data$name,
           group = .data$name,
           text = paste0("<b>Category:</b> ", .data$name, "<br>",
-                        "<b>Cycle date:</b> ", 
+                        "<b>Upload date:</b> ", 
                         format(.data$issue_date, "%B %d, %Y"), "<br>",
                         "<b>Registrations issued:</b> ",
                         format.default(.data$n, big.mark = ",")
@@ -1081,7 +1081,7 @@ server <- function(input, output) {
           color = .data$name,
           group = .data$name,
           text = paste0("<b>Category:</b> ", .data$name, "<br>",
-                        "<b>Cycle date:</b> ", 
+                        "<b>Upload date:</b> ", 
                         format(.data$issue_date, "%B %d, %Y"), "<br>",
                         "<b>Registrations issued:</b> ",
                         format.default(.data$n, big.mark = ",")
@@ -1235,7 +1235,7 @@ server <- function(input, output) {
           y = .data$value,  
           fill = .data$name,
           text = paste0("<b>Category: </b> ", .data$name, "<br>",
-                        "<b>Cycle date:</b> ", .data$Date, "<br>",
+                        "<b>Upload date:</b> ", .data$Date, "<br>",
                         "<b>Registrations:</b> ", 
                         format.default(.data$value, big.mark = ","))
           ),
@@ -1244,7 +1244,7 @@ server <- function(input, output) {
         width = 6
       ) +
       ggplot2::labs(
-        x = "Cycle date", 
+        x = "Upload date", 
         y = "Number of registrations",
         fill = "") +
       ggplot2::scale_y_continuous(label = scales::comma) +
