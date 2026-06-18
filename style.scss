@@ -92,6 +92,7 @@
 /* Card tab link styling */
 .nav-tabs .nav-link {
   color: #007AC3;
+  font-size: clamp(0.1em, 7cqw, .9em) !important;
   padding: 8px 16px;
 
   /* The active tab */
