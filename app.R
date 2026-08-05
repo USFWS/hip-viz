@@ -882,6 +882,7 @@ server <- function(input, output) {
       options =
         list(
           dom = "tBr",
+          paging = FALSE,
           ordering = FALSE,
           columnDefs = 
             list(
