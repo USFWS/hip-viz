@@ -1,8 +1,15 @@
 # Harvest Information Program (HIP) registration dashboard
 
-[![Screenshot of the Harvest Information Program dashboard home page.](www/dashboard_screenshot.png)](https://rconnect.chs.usgs.gov/hip-dashboard/)\
-View the dashboard here: <https://rconnect.chs.usgs.gov/hip-dashboard/>
+View the dashboard here: <https://rconnect.usgs.gov/hip-dashboard/>
 
-This dashboard displays [Harvest Information Program](https://www.fws.gov/harvestsurvey) (HIP) registration data coarsely summarized by the U.S. Fish and Wildlife Service (USFWS). HIP registration is required for all migratory bird hunters and has been underway [since 1999](https://www.fws.gov/program/migratory-bird-harvest-surveys/about-us). The USFWS uses HIP registrations to select a small proportion of hunters to participate in the [National Migratory Bird Harvest Survey](https://www.fws.gov/harvestsurvey/surveyAbout). The Harvest Survey gathers critical information about migratory bird harvest and hunter activity that is used to set hunting season dates, hunting zones, and bag limits. Hunters have about a 5% chance of being selected to take the survey, [depending on the state](https://www.fws.gov/harvestsurvey/harvestRegistration).
+This dashboard displays [Harvest Information Program](https://www.fws.gov/harvestsurvey) (HIP) registration data coarsely summarized by the U.S. Fish and Wildlife Service Migratory Bird Program [Branch of Monitoring and Data Management](https://www.fws.gov/program/migratory-bird-harvest-surveys/what-we-do). The dashboard is a tool that provides an opportunity for our partners to see trends in registrations, increasing data transparency by rendering interactive data visualizations and key metrics. It will be updated biweekly during the migratory game bird hunting season.
 
-HIP registration processing, sampling, mailing, and many other duties are conducted by the Migratory Bird Program [Branch of Monitoring and Data Management](https://www.fws.gov/program/migratory-bird-harvest-surveys/what-we-do).
+The dashboard is restarted annually for the next hunting season in mid/late August.
+
+## USFWS Disclaimer
+
+The United States Fish and Wildlife Service (FWS) GitHub project code is provided on an “as is” basis and the user assumes responsibility for its use. FWS has relinquished control of the information and no longer has responsibility to protect the integrity, confidentiality, or availability of the information. Any reference to specific commercial products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply their endorsement, recommendation or favoring by FWS. The FWS seal and logo shall not be used in any manner to imply endorsement of any commercial product or activity by FWS or the United States Government.
+
+## License
+
+This project is licensed under the terms of the [Creative Commons Zero v1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) license.
