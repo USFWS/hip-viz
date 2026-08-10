@@ -1,5 +1,6 @@
 # Exclusions
 EXCLUDE*.R
+data/
 
 # Internal app maintenance for rsconnect
 maintenance.R
