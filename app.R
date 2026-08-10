@@ -3,7 +3,7 @@
 
 library(markdown)
 `%within%` <- lubridate::`%within%`
-  
+
 # setup -------------------------------------------------------------------
 
 # Define data path
@@ -235,14 +235,25 @@ commits <- jsonlite::fromJSON(rawToChar(resp$content))
 latest_commit <- commits$commit$author$date[1]
 latest_commit_date <- as.Date(latest_commit)
 
+# Number of submissions
+n_submissions <- 
+  db_state_totals |> 
+  dplyr::select(dl_cycle, dl_state) |> 
+  dplyr::bind_rows(
+    db_state_totals_future |> 
+      dplyr::select(dl_cycle, dl_state)) |> 
+  dplyr::filter(dl_cycle != "carryover") |> 
+  dplyr::distinct() |> 
+  dplyr::count(dl_state)
+
 # Sum total registrations by state
 big_data_by_state2 <-
   db_state_totals |> 
   dplyr::filter(dl_cycle != "carryover") |> 
   dplyr::summarize(
     sum_db = sum(n_registrations),
-    n = dplyr::n(),
     .by = "dl_state") |> 
+  dplyr::left_join(n_submissions, by = "dl_state") |> 
   dplyr::left_join(
     season_sums |> 
       dplyr::summarize(
