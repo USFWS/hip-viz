@@ -2,6 +2,13 @@
 
 ## Major updates
 
+## Minor updates
+
+# hip-viz 2025.0.0
+
+## Major updates
+
+- Pin data to Posit Connect using R `{pins}` package.
 - Switch from `bslib::page_navbar()` to `bslib::page_fillable()`, moving the `About` page link to the left menu and combining the `about.md` and `contact.md` contents into one markdown file.
 - Create state `Overview` tab with line plot of registrations by issue date, showing data for current season and last season.
 - Added a modal dialog window to the state `Submission` tab to define legend categories in more detail.
