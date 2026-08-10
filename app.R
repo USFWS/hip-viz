@@ -276,8 +276,10 @@ big_data_by_state2 <-
     .by = "dl_state",
     .after = "sum_db") |> 
   dplyr::mutate(
+    # Acceptance
     acceptance = 
       round((.data$sum_db_all / .data$sum_raw) * 100, 1), 
+    # Submission (participation)
     participation = 
       round(.data$n/which(sched$`Download Cycle` == todays_dl) * 100, 0),
     acceptance_text = 
@@ -697,7 +699,9 @@ server <- function(input, output) {
                   "Submission rate",
                   bslib::tooltip(
                     bsicons::bs_icon("info-circle"),
-                    "Proportion of data upload deadlines met."
+                    htmltools::HTML(
+                    "Proportion of data upload deadlines met.<br><br>For states with seasons that end before March, it may not be possible for this number to reach 100%."
+                    )
                   )
                 ),
               showcase = bsicons::bs_icon("download"),
@@ -788,7 +792,9 @@ server <- function(input, output) {
                   "Submission rate",
                   bslib::tooltip(
                     bsicons::bs_icon("info-circle"),
-                    "Average proportion of data upload deadlines met."
+                    htmltools::HTML(
+                      "Average proportion of data upload deadlines met.<br><br>For flyways with seasons that end before March, it may not be possible for this number to reach 100%."
+                    )
                   )
                 ),
               showcase = bsicons::bs_icon("download"),
