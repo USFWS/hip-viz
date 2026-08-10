@@ -10,6 +10,10 @@
 
 `%within%` <- lubridate::`%within%`
 
+# source pin specs --------------------------------------------------------
+
+source(here::here("R", "pin_spec.R"))
+
 # create ------------------------------------------------------------------
 
 # Define data path
@@ -21,6 +25,9 @@ data_files <- list.files(data_path, full.names = TRUE)
 
 # Get all sum files
 sum_files <- data_files[stringr::str_detect(data_files, "sums")]
+
+# Fail if there's no data
+stopifnot("No data files found." = length(sum_files) > 0)
 
 # Define a state name/state abbreviation lookup table
 state_lookup <-
@@ -218,10 +225,21 @@ state_summary_table <-
 todays_dl <- dplyr::slice_tail(db_totals, n = 1)$dl_cycle
 
 # Define the most recent git commit
-resp <- httr::GET("https://api.github.com/repos/USFWS/hip-viz/commits")
-commits <- jsonlite::fromJSON(rawToChar(resp$content))
-latest_commit <- commits$commit$author$date[1]
-latest_commit_date <- as.Date(latest_commit)
+latest_commit_date <- 
+  tryCatch({
+    resp <- httr::GET("https://api.github.com/repos/USFWS/hip-viz/commits")
+    
+    # Return an error if the request fails
+    httr::stop_for_status(resp)
+    
+    commits <- jsonlite::fromJSON(rawToChar(resp$content))
+    latest_commit <- commits$commit$author$date[1]
+    
+    as.Date(latest_commit)
+  }, 
+  error = 
+    function(e) stop("GitHub commit lookup failed: ", conditionMessage(e))
+  )
 
 # Number of submissions
 n_submissions <- 
@@ -486,6 +504,9 @@ bundle <- list(
 
 # Uses CONNECT_SERVER + CONNECT_API_KEY from .Renviron
 board <- pins::board_connect()   
+
+# Double check
+validate_bundle(bundle)
 
 board |>
   pins::pin_write(
