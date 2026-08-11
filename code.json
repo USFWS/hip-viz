@@ -3,7 +3,7 @@
     "name": "hip-viz",
     "organization": "U.S. Fish and Wildlife Service",
     "description": "Harvest Information Program (HIP) registration dashboard",
-    "version": "v2025.0.0",
+    "version": "v2025.1.0",
     "status": "Development",
 
     "permissions": {
@@ -42,7 +42,7 @@
     },
 
     "date": {
-      "metadataLastUpdated": "2026-08-10"
+      "metadataLastUpdated": "2026-08-11"
     }
   }
 ]
