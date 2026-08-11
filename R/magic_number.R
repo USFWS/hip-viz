@@ -1,6 +1,7 @@
 # Create a function to magically format numbers
 magic_number <-
   function(x) {
+    assertthat::assert_that(!is.na(x), msg = "Value is NA.")
     
     a_thousand <- 1000
     ten_thousand <- 10000
