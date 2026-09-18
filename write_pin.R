@@ -17,8 +17,8 @@ source(here::here("R", "pin_spec.R"))
 # create ------------------------------------------------------------------
 
 # Define data path
-data_path <- paste0(here::here(), "/data/2025-2026/")
-data_path_past <- paste0(here::here(), "/data/2024-2025/")
+data_path <- paste0(here::here(), "/data/2026-2027/")
+data_path_past <- paste0(here::here(), "/data/2025-2026/")
 
 # List data files
 data_files <- list.files(data_path, full.names = TRUE)
@@ -35,53 +35,8 @@ state_lookup <-
     state_name = state.name[state.name != "Hawaii"],
     state_abbr = state.abb[state.abb != "HI"])
 
-# HIP download schedule/dates for 2024
+# HIP download schedule/dates for 2025
 sched_last_year <-
-  tibble::tibble(
-    Download = c(
-      "0800",
-      "0901",
-      "0902",
-      "1001",
-      "1002",
-      "1003",
-      "1101",
-      "1201",
-      "1202",
-      "1301",
-      "1302",
-      "1303",
-      "1401",
-      "1402",
-      "1501",
-      "1502"
-    ), Date = c(
-      "August 22, 2024",
-      "September 5, 2024",
-      "September 19, 2024",
-      "October 3, 2024",
-      "October 17, 2024",
-      "October 31, 2024",
-      "November 14, 2024",
-      "December 2, 2024",
-      "December 12, 2024",
-      "January 9, 2025",
-      "January 16, 2025",
-      "January 23, 2025",
-      "February 6, 2025",
-      "February 20, 2025",
-      "March 6, 2025",
-      "March 20, 2025"
-    ),     
-    # Subtract a day because the dates above are Thursdays (sample date) and we 
-    # need to plot Wednesdays (due dates)
-    cyc = 
-      (lubridate::mdy(Date) - lubridate::days(1)) |> 
-      format("%b %d")
-  )
-
-# HIP download schedule/dates for this season
-sched <-
   tibble::tribble(
     ~`Download Cycle`,                ~Date,
     "0800",    "August 13, 2025",
@@ -104,30 +59,52 @@ sched <-
   ) |> 
   dplyr::mutate(cyc = lubridate::mdy(Date) |> format("%b %d"))
 
+# HIP download schedule/dates for this season
+sched <-
+  tibble::tribble(
+    ~`Download Cycle`,                ~Date,
+    "0800",    "August 12, 2026",
+    "0802",    "August 26, 2026",
+    "0901",  "September 9, 2026",
+    "0902", "September 23, 2026",
+    "1001",    "October 7, 2026",
+    "1002",   "October 21, 2026",
+    "1101",   "November 4, 2026",
+    "1102",  "November 18, 2026",
+    "1201",   "December 2, 2026",
+    "1202",  "December 16, 2026",
+    "1203",  "December 30, 2026",
+    "1301",   "January 13, 2027",
+    "1302",   "January 27, 2027",
+    "1401",  "February 10, 2027",
+    "1402",  "February 24, 2027",
+    "1501",     "March 10, 2027",
+    "1502",     "March 24, 2027"
+  ) |> 
+  dplyr::mutate(cyc = lubridate::mdy(Date) |> format("%b %d"))
+
 # Last season's database totals by download
 db_totals_last_szn <-
   readr::read_csv(
-    data_files[stringr::str_detect(data_files, "db_tots_2024-2025")]) |> 
+    data_files[stringr::str_detect(data_files, "db_tots_2025-2026")]) |> 
   dplyr::mutate(dl_cycle = as.character(DL)) |> 
   dplyr::select(-"DL") |> 
   dplyr::left_join(
-    sched_last_year |> dplyr::rename(dl_cycle = Download),
+    sched_last_year |> dplyr::rename(dl_cycle = `Download Cycle`),
     by = "dl_cycle") |> 
   dplyr::mutate(name = "Last season") |> 
-  dplyr::rename(value = "cumulative_total") |> 
-  dplyr::filter(!dl_cycle %in% c("1601", "1701"))
+  dplyr::rename(value = "cumulative_total") #|> 
+  #dplyr::filter(!dl_cycle %in% c("1601", "1701"))
 
 # Last season's database totals by download and state
 db_st_totals_last_szn <-
   readr::read_csv(
-    data_files[stringr::str_detect(data_files, "db_state_tots_2024-2025")]) |> 
-  dplyr::mutate(dl_cycle = as.character(DL)) |> 
-  dplyr::select(-"DL") |> 
+    data_files[stringr::str_detect(data_files, "db_state_tots_2025-2026")]) |> 
   dplyr::left_join(
-    sched_last_year |> dplyr::rename(dl_cycle = Download),
+    sched_last_year |> dplyr::rename(dl_cycle = `Download Cycle`),
     by = "dl_cycle") |> 
-  dplyr::mutate(name = "Last season") |> 
-  dplyr::filter(!dl_cycle %in% c("1601", "1701"))
+  dplyr::mutate(name = "Last season") #|> 
+  #dplyr::filter(!dl_cycle %in% c("1601", "1701"))
 
 # Database totals by download
 db_totals <-
@@ -147,10 +124,10 @@ db_state_totals <-
   dplyr::left_join(
     sched |> dplyr::rename(dl_cycle = `Download Cycle`),
     by = "dl_cycle") |> 
-  dplyr::mutate(
-    Date = ifelse(is.na(Date), "August 1, 2025", Date),
-    cyc = ifelse(is.na(cyc), "Aug 1", cyc),
-  ) |> 
+  # dplyr::mutate(
+  #   Date = ifelse(is.na(Date), "August 1, 2025", Date),
+  #   cyc = ifelse(is.na(cyc), "Aug 1", cyc),
+  # ) |> 
   dplyr::mutate(name = "Current season") |> 
   dplyr::rename(value = "cumulative_registrations")
 
@@ -271,7 +248,7 @@ big_data_by_state2 <-
   dplyr::left_join(
     db_state_totals_future |> 
       dplyr::summarize(
-        sum_future = sum(n_registrations),
+        sum_future = sum(as.double(n_registrations), na.rm = T),
         .by = "dl_state"
       ),
     by = "dl_state"
@@ -327,7 +304,8 @@ mean_big_data_by_flyway <-
 
 # Summary of last season's issue dates for each state
 issue_date_summary_past <- 
-  readr::read_csv(paste0(data_path_past, "issue_date_summary_2024.csv"))
+  readr::read_csv(paste0(data_path_past, "issue_date_summary.csv")) |> 
+  dplyr::count(dl_state, issue_date)
 
 # Current season issue dates for each download and state
 issue_date_summary <- 
@@ -442,7 +420,15 @@ overunder <-
         overunder_pct > 0,
         "icon-positive-color",
         "icon-negative-color")
-  )
+  ) |> 
+  # If any states haven't submitted data yet, don't include them
+  dplyr::filter(!is.na(current_cumulative)) |> 
+  # Full join with all states so that the values can be populated with NA
+  dplyr::right_join(
+    dplyr::tibble(
+      dl_state = state_lookup$state_abbr,
+      state_name = state_lookup$state_name),
+    by = c("dl_state", "state_name")) 
 
 # By flyway comparison of current season cumulative HIP total vs previous season
 # cumulative HIP total
@@ -472,7 +458,7 @@ overunder_fl <-
   )
 
 # Calculate how many days are left in the season
-days_left_actual <- lubridate::mdy("03/11/2026") - lubridate::today()
+days_left_actual <- lubridate::mdy("03/11/2027") - lubridate::today()
 days_left <- ifelse(days_left_actual < 0, 0, days_left_actual)
 
 # pin ---------------------------------------------------------------------
@@ -503,7 +489,7 @@ bundle <- list(
 )
 
 # Uses CONNECT_SERVER + CONNECT_API_KEY from .Renviron
-board <- pins::board_connect()   
+board <- pins::board_connect()
 
 # Double check
 validate_bundle(bundle)
@@ -511,7 +497,7 @@ validate_bundle(bundle)
 board |>
   pins::pin_write(
     bundle,
-    name = "hip-viz-data_2025",
+    name = "hip-viz-data_2026",
     type = "rds",
     versioned = TRUE
   )

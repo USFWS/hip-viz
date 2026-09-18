@@ -1,8 +1,13 @@
-# hip-viz (dev)
+# hip-viz 2026.0.0
 
-## Major updates
+- Release for beginning of 2026-2027, including first 3 data cycles.
+
+# hip-viz 2025.1.0
 
 ## Minor updates
+
+- Add unit tests.
+- Add github actions.
 
 # hip-viz 2025.0.0
 

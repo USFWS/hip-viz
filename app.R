@@ -8,7 +8,7 @@ library(shiny)
 
 # Get pinned data
 board  <- pins::board_connect()
-bundle <- board |> pins::pin_read("abby_walter@fws.gov/hip-viz-data_2025")
+bundle <- board |> pins::pin_read("abby_walter@fws.gov/hip-viz-data_2026")
 list2env(bundle, envir = environment())
 
 # Sketch an HTML table format
@@ -59,7 +59,7 @@ ui <-
       div(
         div(
           class = "d-flex flex-column",
-          div(class = "app_title", "Harvest Information Program Registrations 2025–2026"),
+          div(class = "app_title", "Harvest Information Program Registrations 2026–2027"),
           div(class = "app_subtitle", "U.S. Fish & Wildlife Service • Migratory Bird Program")
         )
       )
@@ -114,19 +114,19 @@ server <- function(input, output) {
         div(
           style = "max-height: 400px; overflow-y: auto; padding-right: 10px;",
           p(strong("Submitted"),  "- Number of registrations uploaded."),
-          p(strong("Accepted 2025"), 
+          p(strong("Accepted 2026"), 
             "- Registrations accepted and sample eligible for the current",
-            "2025-2026 hunting season. The number of registrations accepted",
+            "2026-2027 hunting season. The number of registrations accepted",
             "may be less than the number of registrations submitted, because",
             "registrations are dropped if they are missing hunter contact",
             "information, have bad bag values, or posess other major errors."),
-          p(strong("Accepted 2026"), 
-            "- Registrations accepted for the upcoming 2026-2027 hunting",
+          p(strong("Accepted 2027"), 
+            "- Registrations accepted for the upcoming 2027-2028 hunting",
             "season. These registrations will be sample eligible next season."),
           p(strong("Carryover"), 
             "- Registrations accepted the previous season for the current",
-            "season; e.g., the", em("Accepted 2026"), "registrations will show",
-            "as ", em("Carryover"), "in the 2026-2027 season. This category",
+            "season; e.g., the", em("Accepted 2027"), "registrations will show",
+            "as ", em("Carryover"), "in the 2027-2028 season. This category",
             "only applies to states with overlapping issue start and end dates."
             )
           )
@@ -187,7 +187,7 @@ server <- function(input, output) {
           )
         ),
         bslib::card(
-          bslib::card_header("Cumulative HIP Registrations 2025-2026"),
+          bslib::card_header("Cumulative HIP Registrations 2026-2027"),
           bslib::card_body(plotly::plotlyOutput("cumulative_plot")),
           height = "100%"
         )
@@ -231,30 +231,42 @@ server <- function(input, output) {
             width = 1,
             heights_equal = "row",
             bslib::value_box(
-              title = 
+              title =
                 shiny::span(
                   "Total registrations",
                   bslib::tooltip(
                     bsicons::bs_icon("info-circle"),
-                    "Total registrations accepted for the current season. Year-over-year comparison to last season is in parentheses."
+                    "Total registrations accepted for the current season. Year-over-year comparison to last season is in parentheses, if available."
                   )
                 ),
               showcase = bsicons::bs_icon("person-plus"),
-              value = 
-                shiny::p(
-                  format.default(
-                    big_data_by_state3$sum_db[big_data_by_state3$state_name == input$stateChosen],
-                    big.mark = ","),
-                  " (",
-                  shiny::uiOutput("st_icon", inline = TRUE),
-                  " ",
-                  paste0(
-                    overunder$overunder_pct[overunder$state_name == input$stateChosen],
-                    "%"),
-                  ")")
+              value =
+                # If else statement returns blank for states that did not submit
+                # data before today's date (last year); e.g. there is no
+                # previous data to calculate the YoY percent
+                if (is.na(overunder$overunder_pct[overunder$state_name == input$stateChosen])) {
+                  shiny::p(
+                    format.default(
+                      big_data_by_state3$sum_db[big_data_by_state3$state_name == input$stateChosen],
+                      big.mark = ",")
+                  )
+                } else {
+                  shiny::p(
+                    format.default(
+                      big_data_by_state3$sum_db[big_data_by_state3$state_name == input$stateChosen],
+                      big.mark = ","),
+                    " (",
+                    shiny::uiOutput("st_icon", inline = TRUE),
+                    " ",
+                    paste0(
+                      overunder$overunder_pct[overunder$state_name == input$stateChosen],
+                      "%"),
+                    ")"
+                  )
+                }
             ),
             bslib::value_box(
-              title = 
+              title =
                 shiny::span(
                   "Submission rate",
                   bslib::tooltip(
@@ -265,12 +277,12 @@ server <- function(input, output) {
                   )
                 ),
               showcase = bsicons::bs_icon("download"),
-              value = 
+              value =
                 paste0(big_data_by_state2$participation[big_data_by_state2$state_name == input$stateChosen],
                        "%")
             ),
             bslib::value_box(
-              title = 
+              title =
                 shiny::span(
                   "Acceptance rate",
                   bslib::tooltip(
@@ -279,12 +291,12 @@ server <- function(input, output) {
                   )
                 ),
               showcase = bsicons::bs_icon("clipboard-check"),
-              value = 
+              value =
                 paste0(big_data_by_state2$acceptance_text[big_data_by_state2$state_name == input$stateChosen],
                        "%")
             ),
             bslib::value_box(
-              title = 
+              title =
                 shiny::span(
                   "Tardiness rate",
                   bslib::tooltip(
@@ -293,7 +305,7 @@ server <- function(input, output) {
                   )
                 ),
               showcase = bsicons::bs_icon("hourglass-split"),
-              value = 
+              value =
                 lag_summary$p30_text[lag_summary$state_name == input$stateChosen]
             )
           )
@@ -471,17 +483,17 @@ server <- function(input, output) {
               list(
                 text = "<i class='fa fa-download'></i> CSV",
                 extend = "csv", 
-                filename = paste0(input$stateChosen, "_HIP summary 2025-2026"), 
+                filename = paste0(input$stateChosen, "_HIP summary 2026-2027"), 
                 titleAttr = "Download as CSV"
               ),
               list(
                 extend = "excel", 
-                filename = paste0(input$stateChosen, "_HIP summary 2025-2026"), 
+                filename = paste0(input$stateChosen, "_HIP summary 2026-2027"), 
                 titleAttr = "Download as Excel"
               ),
               list(
                 extend = "pdf", 
-                filename = paste0(input$stateChosen, "_HIP summary 2025-2026"), 
+                filename = paste0(input$stateChosen, "_HIP summary 2026-2027"), 
                 titleAttr = "Download as PDF"
               )
             )
@@ -519,7 +531,8 @@ server <- function(input, output) {
       stateChosen_abbr <- 
         state_lookup$state_abbr[state_lookup$state_name == input$stateChosen]
       
-      db_state_totals |> 
+      state_data_initial <-
+        db_state_totals |> 
         dplyr::select(
           dl_cycle,
           dl_state,
@@ -534,7 +547,7 @@ server <- function(input, output) {
           sched |> dplyr::rename(dl_cycle = `Download Cycle`),
           by = "dl_cycle") |> 
         dplyr::mutate(
-          Date = ifelse(is.na(Date), "August 1, 2025", Date),
+          Date = ifelse(is.na(Date), "August 1, 2026", Date),
           cyc = ifelse(is.na(cyc), "Aug 1", cyc),
         ) |> 
         dplyr::arrange(lubridate::mdy(Date)) |> 
@@ -558,7 +571,7 @@ server <- function(input, output) {
               dl_cycle == "carryover" & name == "db_registrations" ~ 
                 "Carryover",
               dl_cycle != "carryover" & name == "db_registrations" ~ 
-                "Accepted 2025",
+                "Accepted 2026",
               name == "raw_n" ~ "Submitted",
               TRUE ~ NA_character_
             ),
@@ -567,31 +580,39 @@ server <- function(input, output) {
               name, 
               levels = 
                 c("Submitted", 
-                  "Accepted 2025", 
+                  "Accepted 2026", 
                   "Carryover"))
         ) |> 
-        dplyr::filter(!(dl_cycle == "carryover" & name == "Submitted")) |> 
-        dplyr::bind_rows(
-          db_state_totals_future |> 
-            dplyr::filter(dl_state == stateChosen_abbr) |> 
-            dplyr::rename(
-              final_n = value,
-              value = n_registrations
-            ) |> 
-            dplyr::mutate(issue_date = NA, .after = "final_n") |> 
-            dplyr::relocate(value, .after = "name") |> 
-            dplyr::mutate(
-              name = 
-                factor(
-                  name, 
-                  levels = 
-                    c("Submitted", 
-                      "Accepted 2025", 
-                      "Accepted 2026",
-                      "Carryover"))
-            )
-        )
+        dplyr::filter(!(dl_cycle == "carryover" & name == "Submitted")) 
       
+      if (nrow(db_state_totals_future) == 0) {
+        state_data_final <- state_data_initial
+      } else {
+        state_data_final <- 
+          state_data_initial |> 
+          dplyr::bind_rows(
+            db_state_totals_future |> 
+              dplyr::filter(dl_state == stateChosen_abbr) |> 
+              dplyr::rename(
+                final_n = value,
+                value = n_registrations
+              ) |> 
+              dplyr::mutate(issue_date = NA, .after = "final_n") |> 
+              dplyr::relocate(value, .after = "name") |> 
+              dplyr::mutate(
+                name = 
+                  factor(
+                    name, 
+                    levels = 
+                      c("Submitted", 
+                        "Accepted 2026", 
+                        "Accepted 2027",
+                        "Carryover"))
+              )
+          )
+      }
+      
+      state_data_final
     })
   
   dataByStateIssuance <- 
@@ -608,17 +629,21 @@ server <- function(input, output) {
         dplyr::count(issue_date) |> 
         dplyr::mutate(name = "Current season")
       
-      # All issue dates
-      dplyr::tibble(
-        issue_date = 
-          seq(min(raw_dates$issue_date),
-              max(raw_dates$issue_date), 
-              by = "days")) |> 
-        dplyr::left_join(raw_dates, by = "issue_date") |> 
-        dplyr::mutate(
-          n = tidyr::replace_na(n, 0),
-          name = tidyr::replace_na(name, "Current season")
-        )
+      if (nrow(raw_dates) > 0) {
+        # All issue dates
+        dplyr::tibble(
+          issue_date = 
+            seq(min(raw_dates$issue_date),
+                max(raw_dates$issue_date), 
+                by = "days")) |> 
+          dplyr::left_join(raw_dates, by = "issue_date") |> 
+          dplyr::mutate(
+            n = tidyr::replace_na(n, 0),
+            name = tidyr::replace_na(name, "Current season")
+          )
+      } else {
+        raw_dates
+      }
       
     })
   
@@ -698,50 +723,88 @@ server <- function(input, output) {
   
   output$state_overview_plot <- plotly::renderPlotly({
     
-    state_overview_plot <- 
-      ggplot2::ggplot() +
-      ggplot2::geom_line(
-        data = dataByStateIssuancePast(),
-        ggplot2::aes(
-          x = .data$issue_date + lubridate::days(365),
-          y = .data$n,
-          color = .data$name,
-          group = .data$name,
-          text = paste0("<b>Category:</b> ", .data$name, "<br>",
-                        "<b>Upload date:</b> ", 
-                        format(.data$issue_date, "%B %d, %Y"), "<br>",
-                        "<b>Registrations issued:</b> ",
-                        format.default(.data$n, big.mark = ",")
-          )
-        )) +
-      ggplot2::geom_line(
-        data = dataByStateIssuance(),
-        ggplot2::aes(
-          x = .data$issue_date, 
-          y = .data$n, 
-          color = .data$name,
-          group = .data$name,
-          text = paste0("<b>Category:</b> ", .data$name, "<br>",
-                        "<b>Upload date:</b> ", 
-                        format(.data$issue_date, "%B %d, %Y"), "<br>",
-                        "<b>Registrations issued:</b> ",
-                        format.default(.data$n, big.mark = ",")
-          )
-        )) +
-      ggplot2::labs(
-        x = "Issue date", 
-        y = "Number of registrations",
-        color = "",
-        linewidth = "") +
-      ggplot2::scale_y_continuous(label = scales::comma) +
-      ggplot2::scale_x_date(date_breaks = "2 months", date_labels = "%b") +
-      ggplot2::scale_color_manual(
-        values = c("Last season" = "#F2B028",
-                   "Current season" = colors[1])) +
-      ggplot2::theme_bw() +
-      ggplot2::theme(
-        axis.text.x = 
-          ggplot2::element_text(angle = 45, vjust = 1, hjust = 1))
+    # Plot current season data only if there has been data submitted. This
+    # breaks the plot more gracefully than before when states have not sent data
+    # in for the season yet; the page doesn't show a error message, instead it
+    # plots past season data so the main page is not blank/error.
+    
+    if(nrow(dataByStateIssuance()) > 0) {
+      state_overview_plot <- 
+        ggplot2::ggplot() +
+        ggplot2::geom_line(
+          data = dataByStateIssuancePast(),
+          ggplot2::aes(
+            x = .data$issue_date + lubridate::days(365),
+            y = .data$n,
+            color = .data$name,
+            group = .data$name,
+            text = paste0("<b>Category:</b> ", .data$name, "<br>",
+                          "<b>Upload date:</b> ", 
+                          format(.data$issue_date, "%B %d, %Y"), "<br>",
+                          "<b>Registrations issued:</b> ",
+                          format.default(.data$n, big.mark = ",")
+            )
+          )) +
+        ggplot2::geom_line(
+          data = dataByStateIssuance(),
+          ggplot2::aes(
+            x = .data$issue_date, 
+            y = .data$n, 
+            color = .data$name,
+            group = .data$name,
+            text = paste0("<b>Category:</b> ", .data$name, "<br>",
+                          "<b>Upload date:</b> ", 
+                          format(.data$issue_date, "%B %d, %Y"), "<br>",
+                          "<b>Registrations issued:</b> ",
+                          format.default(.data$n, big.mark = ",")
+            )
+          )) +
+        ggplot2::labs(
+          x = "Issue date", 
+          y = "Number of registrations",
+          color = "",
+          linewidth = "") +
+        ggplot2::scale_y_continuous(label = scales::comma) +
+        ggplot2::scale_x_date(date_breaks = "2 months", date_labels = "%b") +
+        ggplot2::scale_color_manual(
+          values = c("Last season" = "#F2B028",
+                     "Current season" = colors[1])) +
+        ggplot2::theme_bw() +
+        ggplot2::theme(
+          axis.text.x = 
+            ggplot2::element_text(angle = 45, vjust = 1, hjust = 1))
+    } else {
+      state_overview_plot <- 
+        ggplot2::ggplot() +
+        ggplot2::geom_line(
+          data = dataByStateIssuancePast(),
+          ggplot2::aes(
+            x = .data$issue_date + lubridate::days(365),
+            y = .data$n,
+            color = .data$name,
+            group = .data$name,
+            text = paste0("<b>Category:</b> ", .data$name, "<br>",
+                          "<b>Upload date:</b> ", 
+                          format(.data$issue_date, "%B %d, %Y"), "<br>",
+                          "<b>Registrations issued:</b> ",
+                          format.default(.data$n, big.mark = ",")
+            )
+          )) +
+        ggplot2::labs(
+          x = "Issue date", 
+          y = "Number of registrations",
+          color = "",
+          linewidth = "") +
+        ggplot2::scale_y_continuous(label = scales::comma) +
+        ggplot2::scale_x_date(date_breaks = "2 months", date_labels = "%b") +
+        ggplot2::scale_color_manual(
+          values = c("Last season" = "#F2B028",
+                     "Current season" = colors[1])) +
+        ggplot2::theme_bw() +
+        ggplot2::theme(
+          axis.text.x = 
+            ggplot2::element_text(angle = 45, vjust = 1, hjust = 1))
+    }
     
     o_state <- plotly::ggplotly(state_overview_plot, tooltip = "text")
   
@@ -891,7 +954,7 @@ server <- function(input, output) {
       ggplot2::scale_y_continuous(label = scales::comma) +
       ggplot2::scale_x_date(
         breaks = 
-          c(lubridate::mdy("August 1, 2025"), lubridate::mdy(sched$Date)),
+          c(lubridate::mdy("August 1, 2026"), lubridate::mdy(sched$Date)),
         labels = c("Carryover", sched$cyc)) +
       ggplot2::theme_bw() +
       ggplot2::theme(
@@ -899,8 +962,8 @@ server <- function(input, output) {
           ggplot2::element_text(angle = 45, vjust = 1, hjust = 1)) + 
       ggplot2::scale_fill_manual(
         labels = c("Submitted", 
-                   "Accepted 2025", 
                    "Accepted 2026", 
+                   "Accepted 2027", 
                    "Carryover"),
         values = c(colors[1], colors[2], colors[3], colors[5]))
     
