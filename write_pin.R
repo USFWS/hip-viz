@@ -437,8 +437,8 @@ overunder_fl <-
   dplyr::select(dl_state, past_cumulative, current_cumulative) |> 
   migbirdHIP:::assignFlyway("dl_state", "fl") |> 
   dplyr::summarize(
-    fl_past_cumulative = sum(past_cumulative),
-    fl_current_cumulative = sum(current_cumulative),
+    fl_past_cumulative = sum(past_cumulative, na.rm = TRUE),
+    fl_current_cumulative = sum(current_cumulative, na.rm = TRUE),
     .by = "fl") |> 
   dplyr::mutate(
     overunder_pct = 
@@ -465,7 +465,7 @@ days_left <- ifelse(days_left_actual < 0, 0, days_left_actual)
 
 # Bundle all used data objects into one named list
 bundle <- list(
-  latest_commit_date = latest_commit_date,
+  latest_commit_date = latest_commit_date, # or today?
   todays_dl = todays_dl,
   days_left = days_left,
   sched = sched,
