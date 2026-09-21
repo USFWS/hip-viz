@@ -236,34 +236,16 @@ server <- function(input, output) {
                   "Total registrations",
                   bslib::tooltip(
                     bsicons::bs_icon("info-circle"),
-                    "Total registrations accepted for the current season. Year-over-year comparison to last season is in parentheses, if available."
+                    htmltools::HTML(
+                      "Total registrations accepted for the current season. Year-over-year comparison to last season is in parentheses, if available.<br><br>Very high YoY percentages (greater than 100%) indicate data were submitted late last season."
+                    )
                   )
                 ),
               showcase = bsicons::bs_icon("person-plus"),
-              value =
-                # If else statement returns blank for states that did not submit
-                # data before today's date (last year); e.g. there is no
-                # previous data to calculate the YoY percent
-                if (is.na(overunder$overunder_pct[overunder$state_name == input$stateChosen])) {
-                  shiny::p(
-                    format.default(
-                      big_data_by_state3$sum_db[big_data_by_state3$state_name == input$stateChosen],
-                      big.mark = ",")
-                  )
-                } else {
-                  shiny::p(
-                    format.default(
-                      big_data_by_state3$sum_db[big_data_by_state3$state_name == input$stateChosen],
-                      big.mark = ","),
-                    " (",
-                    shiny::uiOutput("st_icon", inline = TRUE),
-                    " ",
-                    paste0(
-                      overunder$overunder_pct[overunder$state_name == input$stateChosen],
-                      "%"),
-                    ")"
-                  )
-                }
+              # Do the value reactively. Returns a blank for states that did not
+              # submit data before today's date last year (e.g., there is
+              # no previous data to calculate the YoY percent)
+              value = box_value()
             ),
             bslib::value_box(
               title =
@@ -272,7 +254,7 @@ server <- function(input, output) {
                   bslib::tooltip(
                     bsicons::bs_icon("info-circle"),
                     htmltools::HTML(
-                    "Proportion of data upload deadlines met.<br><br>For states with seasons that end before March, it may not be possible for this number to reach 100%."
+                      "Proportion of data upload deadlines met.<br><br>For states with seasons that start later than August or end before March, it may not be possible for this number to reach 100%."
                     )
                   )
                 ),
@@ -666,6 +648,30 @@ server <- function(input, output) {
         dplyr::filter(issue_date >= min_issue - lubridate::days(365)*2) |> 
         dplyr::mutate(name = "Last season")
       
+    })
+  
+  box_value <- 
+    shiny::reactive({
+      req(input$stateChosen)
+      st <- input$stateChosen
+      pct <- overunder$overunder_pct[overunder$state_name == st]
+      val <- format.default(
+        big_data_by_state3$sum_db[big_data_by_state3$state_name == st],
+        big.mark = ","
+      )
+      
+      if (is.na(pct)) {
+        shiny::p(val)
+      } else {
+        shiny::p(
+          val,
+          " (",
+          shiny::uiOutput("st_icon", inline = TRUE),
+          " ",
+          paste0(pct, "%"),
+          ")"
+        )
+      }
     })
   
   output$cumulative_plot <- plotly::renderPlotly({
