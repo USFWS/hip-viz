@@ -1,3 +1,8 @@
+# hip-viz 2026.0.1
+
+- Fix the brief error/warning red text when switching to the State page; introduced by conditionally excluding YoY percent in KPI box, which was introduced in `v2026.0.0`.
+- Fix the YoY percent calculation on the flyway page (was summarizing as `NA`). This bug was also introduced in `v2026.0.0` by excluding states who haven't submitted HIP data yet.
+
 # hip-viz 2026.0.0
 
 - Release for beginning of 2026-2027, including first 3 data cycles.
