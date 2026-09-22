@@ -202,21 +202,21 @@ state_summary_table <-
 todays_dl <- dplyr::slice_tail(db_totals, n = 1)$dl_cycle
 
 # Define the most recent git commit
-latest_commit_date <- 
-  tryCatch({
-    resp <- httr::GET("https://api.github.com/repos/USFWS/hip-viz/commits")
-    
-    # Return an error if the request fails
-    httr::stop_for_status(resp)
-    
-    commits <- jsonlite::fromJSON(rawToChar(resp$content))
-    latest_commit <- commits$commit$author$date[1]
-    
-    as.Date(latest_commit)
-  }, 
-  error = 
-    function(e) stop("GitHub commit lookup failed: ", conditionMessage(e))
-  )
+# latest_commit_date <- 
+#   tryCatch({
+#     resp <- httr::GET("https://api.github.com/repos/USFWS/hip-viz/commits")
+#     
+#     # Return an error if the request fails
+#     httr::stop_for_status(resp)
+#     
+#     commits <- jsonlite::fromJSON(rawToChar(resp$content))
+#     latest_commit <- commits$commit$author$date[1]
+#     
+#     as.Date(latest_commit)
+#   }, 
+#   error = 
+#     function(e) stop("GitHub commit lookup failed: ", conditionMessage(e))
+#   )
 
 # Number of submissions
 n_submissions <- 
@@ -465,7 +465,7 @@ days_left <- ifelse(days_left_actual < 0, 0, days_left_actual)
 
 # Bundle all used data objects into one named list
 bundle <- list(
-  latest_commit_date = latest_commit_date, # or today?
+  latest_commit_date = lubridate::today(),
   todays_dl = todays_dl,
   days_left = days_left,
   sched = sched,

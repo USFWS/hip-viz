@@ -1,3 +1,7 @@
+# hip-viz (dev)
+
+- Use `today()` for the last update date.
+
 # hip-viz 2026.0.1
 
 - Fix the brief error/warning red text when switching to the State page; introduced by conditionally excluding YoY percent in KPI box, which was introduced in `v2026.0.0`.
