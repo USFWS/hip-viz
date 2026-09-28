@@ -93,8 +93,7 @@ db_totals_last_szn <-
     sched_last_year |> dplyr::rename(dl_cycle = `Download Cycle`),
     by = "dl_cycle") |> 
   dplyr::mutate(name = "Last season") |> 
-  dplyr::rename(value = "cumulative_total") #|> 
-  #dplyr::filter(!dl_cycle %in% c("1601", "1701"))
+  dplyr::rename(value = "cumulative_total") 
 
 # Last season's database totals by download and state
 db_st_totals_last_szn <-
@@ -103,8 +102,7 @@ db_st_totals_last_szn <-
   dplyr::left_join(
     sched_last_year |> dplyr::rename(dl_cycle = `Download Cycle`),
     by = "dl_cycle") |> 
-  dplyr::mutate(name = "Last season") #|> 
-  #dplyr::filter(!dl_cycle %in% c("1601", "1701"))
+  dplyr::mutate(name = "Last season") 
 
 # Database totals by download
 db_totals <-
@@ -124,10 +122,6 @@ db_state_totals <-
   dplyr::left_join(
     sched |> dplyr::rename(dl_cycle = `Download Cycle`),
     by = "dl_cycle") |> 
-  # dplyr::mutate(
-  #   Date = ifelse(is.na(Date), "August 1, 2025", Date),
-  #   cyc = ifelse(is.na(cyc), "Aug 1", cyc),
-  # ) |> 
   dplyr::mutate(name = "Current season") |> 
   dplyr::rename(value = "cumulative_registrations")
 
@@ -202,21 +196,7 @@ state_summary_table <-
 todays_dl <- dplyr::slice_tail(db_totals, n = 1)$dl_cycle
 
 # Define the most recent git commit
-# latest_commit_date <- 
-#   tryCatch({
-#     resp <- httr::GET("https://api.github.com/repos/USFWS/hip-viz/commits")
-#     
-#     # Return an error if the request fails
-#     httr::stop_for_status(resp)
-#     
-#     commits <- jsonlite::fromJSON(rawToChar(resp$content))
-#     latest_commit <- commits$commit$author$date[1]
-#     
-#     as.Date(latest_commit)
-#   }, 
-#   error = 
-#     function(e) stop("GitHub commit lookup failed: ", conditionMessage(e))
-#   )
+latest_commit_date <- lubridate::today()
 
 # Number of submissions
 n_submissions <- 
@@ -320,40 +300,38 @@ lag <-
   dplyr::mutate(dl_date = lubridate::mdy(Date)) |> 
   dplyr::select(dl_state, issue_date, dl_date) |> 
   # Set all lag for first download to 0
-  # dplyr::mutate(
-  #   lag = 
-  #     ifelse(
-  #       dl_date == lubridate::mdy(sched$Date[2]), 
-  #       0, 
-  #       dl_date - issue_date)
-  # ) |> 
-  # For 2025-2026 only...
-  # Set all lag for first download to 0
-  # Set all lag for first AND second download after furlough to 0
   dplyr::mutate(
-    lag = 
-      dplyr::case_when(
-        dl_date == lubridate::mdy(sched$Date[2]) ~ 0,
-        dl_date %in% 
-          c(lubridate::mdy(sched$Date[5]), lubridate::mdy(sched$Date[6])) &
-          issue_date %within% 
-          lubridate::interval(
-            lubridate::mdy("9/22/2025"), lubridate::mdy("11/20/2025")) ~ 0, 
-        .default = as.double(dl_date - issue_date)
-      )
+    lag =
+      ifelse(
+        dl_date == lubridate::mdy(sched$Date[2]),
+        0,
+        as.double(dl_date - issue_date))
   ) |>
-  # Don't include some wacky data
-  dplyr::filter(lag > -5) |> 
+  # For 2025-2026 only... set all lag for first download to 0 AND set all lag
+  # for first & second download after furlough to 0
+  # dplyr::mutate(
+  #   lag =
+  #     dplyr::case_when(
+  #       dl_date == lubridate::mdy(sched$Date[2]) ~ 0,
+  #       dl_date %in%
+  #         c(lubridate::mdy(sched$Date[5]), lubridate::mdy(sched$Date[6])) &
+  #         issue_date %within%
+  #         lubridate::interval(
+  #           lubridate::mdy("9/22/2025"), lubridate::mdy("11/20/2025")) ~ 0,
+  #       .default = as.double(dl_date - issue_date)
+  #     )
+  # ) |>
   # If the issue date is the day before the download date, change the lag to 0
   dplyr::mutate(
     lag =
-      dplyr::case_when(
-        lag == lubridate::days(-1) ~ 0, 
-        lag == lubridate::days(-2) ~ 0,
-        lag == lubridate::days(-3) ~ 0,
-        lag == lubridate::days(-4) ~ 0,
-        TRUE ~ as.numeric(lag)))
-
+      ifelse(
+        .data$lag == -1,
+        0,
+        as.numeric(lag))
+    ) |>
+  # Keep only lag values of 0 or more (negative lag is impossible)
+  dplyr::filter(lag >= 0)
+  
 # Summarize the lag between the download date and issue date by state
 lag_summary <- 
   lag |> 
@@ -380,7 +358,7 @@ lag_summary_fl <-
     mean_lag = as.numeric(mean(lag)),
     max_lag = as.numeric(max(lag)),
     median_lag = as.numeric(median(lag)),
-    prop_over_30 = sum(greater_than_30)/dplyr::n(),
+    prop_over_30 = sum(greater_than_30) / dplyr::n(),
     p30_text = paste0(round(prop_over_30 * 100, 1), "%"),
     .by = "fl"
   ) 
@@ -465,7 +443,7 @@ days_left <- ifelse(days_left_actual < 0, 0, days_left_actual)
 
 # Bundle all used data objects into one named list
 bundle <- list(
-  latest_commit_date = lubridate::today(),
+  latest_commit_date = latest_commit_date,
   todays_dl = todays_dl,
   days_left = days_left,
   sched = sched,
