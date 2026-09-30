@@ -29,7 +29,7 @@ pin_spec <- list(
   mean_big_data_by_flyway = c("fl", "mean_participation", "mean_acceptance", "sum_total")
 )
 
-pin_scalars <- c("latest_commit_date", "todays_dl", "days_left")
+pin_scalars <- c("latest_commit_date", "todays_dl")
 
 # Fails loudly. Call in write_pin.R before pin_write(); assert in tests.
 validate_bundle <- function(bundle, spec = pin_spec, scalars = pin_scalars) {
