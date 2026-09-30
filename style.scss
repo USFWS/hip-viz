@@ -5,14 +5,14 @@
   padding-top: 0px !important;
 }
 
-/* Fortmat title */
+/* Format title */
 .app_title {
-  font-size: 1.7rem;   
+  font-size: 1.7rem;
   font-weight: 600;
   line-height: 1.2;
 }
 
-/* Fortmat title */
+/* Format subtitle */
 .app_subtitle {
   font-size: 1.25rem;
   line-height: 1.2;
@@ -54,12 +54,12 @@
   }
 }
 .bslib-value-box:not(.showcase-bottom) .value-box-grid .value-box-area {
-  justify-content: middle !important;
+  justify-content: center !important;
 }
 
 /* Value box color themes */
 .bg-fws-tan {
-  color: #67532f; 
+  color: #67532f;
   background-color: #EED8B3;
   border-color: #EED8B3;
 }
@@ -74,7 +74,7 @@
   border-color: #F2B028;
 }
 .bg-fws-blu {
-  color: #d6e5ee; 
+  color: #d6e5ee;
   background-color: #007AC3;
   border-color: #007AC3;
 }
@@ -85,10 +85,10 @@
   border: none;
   padding: 5px 5px;
   transition: background-color 0.3s ease;
-  display: block;       
+  display: block;
   margin-top: 0px !important;
-  margin-left: auto;    
-  margin-right: auto;   
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Card body link styling */
@@ -126,7 +126,7 @@
   background-color: #F8F8F8 !important;
   border-color: #D2D2D2 !important;
   color: #000000 !important;
-  
+
   &:hover {
     background-color: #d6e5ee !important;
   }
@@ -152,4 +152,186 @@ p.spacer {
 /* Vertically center the datatable headers */
 table.dataTable thead th {
   vertical-align: top;
+}
+
+/* Class for entire app */
+.app-body {
+  position: relative;
+  min-height: 100%;
+}
+
+/* Position the last updated text at lower left on desktop */
+.last-updated {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  z-index: 10;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* ---- Mobile only adjustments ---- */
+
+/* Phone only: KPI boxes in a 2x2 grid */
+@media (max-width: 575.98px) {
+  .app-body .bslib-grid.kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    gap: 0.5rem !important;
+    flex: none !important;
+    height: auto !important;
+  }
+  .app-body .bslib-grid.kpi-grid > * {
+    grid-column: span 1 !important;
+    min-width: 0;
+  }
+  /* Make the boxes smaller */
+  .kpi-grid .bslib-value-box {
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+  
+    .value-box-area {
+      padding: 0.5rem 0.6rem !important;
+    }
+    .value-box-title {
+      font-size: 0.75rem !important;
+      line-height: 1.15;
+    }
+    .value-box-value {
+      font-size: 1.2rem !important;
+      line-height: 1.2;
+    }
+    .value-box-showcase {
+      padding: 0.5rem 0 0.5rem 0.5rem !important;
+      .bi {
+        font-size: 1.5rem !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+
+  /* Let the page grow with its content instead of staying one screen tall */
+  html {
+    height: auto !important;
+  }
+  .app-body {
+    height: auto !important;
+    min-height: 100vh;
+    min-height: 100dvh;   
+  }
+  .main-layout {
+    grid-auto-rows: auto !important;  
+    flex: none !important;   
+    align-content: start;
+  }
+
+  /* Last updated position on mobile */
+  .last-updated {
+    position: static !important;
+    margin-top: auto;
+    padding: 0.15rem 0 0.15rem;
+    z-index: auto;
+  }
+  
+  /* Smaller title and subtitle on mobile */
+  .app_title {
+    font-size: 1.1rem !important;
+  }
+  .app_subtitle {
+    font-size: 0.85rem !important;
+  }
+
+  /* Give plots a minimum height so they aren't squished */
+  .plotly.html-widget {
+    min-height: 350px !important;
+  }
+  
+  /* State name above tabs; tabs on a single row */
+  .state-tabs .card-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    flex-wrap: nowrap !important;
+    gap: 0.25rem;
+    padding-left: 0.5rem !important;   
+    padding-right: 0.5rem !important;
+  }
+  .state-tabs .card-header .nav-tabs {
+    flex-wrap: nowrap !important;
+    width: 100%;
+    margin-left: 0 !important;
+    overflow-x: auto;              
+    overflow-y: hidden;
+    /* hide scrollbar (Firefox) */
+    scrollbar-width: none;       
+    /* hide scrollbar (Safari/Chrome) */
+    &::-webkit-scrollbar { display: none; }  
+  }
+  /* spacer pushes tabs right; not needed when stacked */
+  .state-tabs .bslib-nav-spacer {
+    display: none !important;      
+  }
+  .state-tabs .nav-tabs .nav-link {
+    font-size: clamp(0.68rem, 3.2vw, 0.85rem) !important;  
+    padding: 6px 6px !important;
+    white-space: nowrap;
+  }
+  .state-tabs .nav-tabs .nav-item {
+    flex: 1 1 auto;           
+    text-align: center;
+  }
+  
+  /* State acceptance datatable: fit to card width, no horizontal scroll */
+  #file_table {
+    .dataTables_wrapper,
+    .dataTables_scroll,
+    .dataTables_scrollHead,
+    .dataTables_scrollHeadInner,
+    .dataTables_scrollBody {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding-right: 0 !important;
+    }
+    .dataTables_scrollBody {
+      overflow-x: hidden !important;
+    }
+    table.dataTable {
+      width: 100% !important;
+      table-layout: fixed;          
+      font-size: 0.75rem;
+      margin: 0 !important;
+    }
+    table.dataTable th,
+    table.dataTable td {
+      width: auto !important;       
+      padding: 4px 4px !important;
+      white-space: normal !important;
+      overflow-wrap: anywhere;
+    }
+    table.dataTable thead th {
+      font-size: 0.7rem;
+      line-height: 1.15;
+      vertical-align: bottom;
+    }
+  }
+  
+  /* Card and body stop filling and size to content */
+  .about-card-outer {
+    height: auto !important;
+    min-height: 0 !important;
+    flex: none !important;
+    overflow: visible !important;
+  }
+  .about-card {
+    height: auto !important;
+    min-height: 0 !important;
+    flex: none !important;
+    overflow: visible !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
 }

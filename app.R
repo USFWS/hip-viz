@@ -49,6 +49,7 @@ colors <-
 # Define UI
 ui <- 
   bslib::page_fillable(
+    class = "app-body",
     # Browser window title
     title = "USFWS Harvest Information Program Dashboard",
     fillable_mobile = TRUE,
@@ -56,6 +57,12 @@ ui <-
     theme = 
       bslib::bs_theme(version = 5, preset = "flatly") |> 
         bslib::bs_add_rules(sass::sass_file("style.scss")),
+    # Get the user's screen size
+    tags$script(HTML(
+      "function sendWidth(){ Shiny.setInputValue('win_width', window.innerWidth); }
+       $(document).on('shiny:connected', sendWidth);
+       $(window).resize(sendWidth);"
+    )),
     # Header
     div(
       class = "app-header d-flex align-items-center p-2 border-bottom",
@@ -71,6 +78,7 @@ ui <-
     ),
     # Body
     bslib::layout_column_wrap(
+      class = "main-layout",
       style = bslib::css(grid_template_columns = "1fr 4fr"),
       # Menu
       bslib::layout_column_wrap(
@@ -87,20 +95,19 @@ ui <-
             ),
             uiOutput("dynamic_dropdown")
           )
-        ),
-        # Last updated
-        div(
-          paste0(
-            "Last updated: ",
-            lubridate::month(latest_commit_date, label = TRUE), " ",
-            lubridate::day(latest_commit_date), ", ",
-            lubridate::year(latest_commit_date)
-          ),
-          style = "position: absolute; bottom: 15px;"
         )
       ),
       # Main panel
       uiOutput("dynamic_panel")
+    ),
+    div(
+      class = "last-updated",
+      paste0(
+        "Last updated: ",
+        lubridate::month(latest_commit_date, label = TRUE), " ",
+        lubridate::day(latest_commit_date), ", ",
+        lubridate::year(latest_commit_date)
+      )
     )
   )
 
@@ -113,7 +120,7 @@ server <- function(input, output) {
     shiny::showModal( 
       shiny::modalDialog( 
         title = "Legend definitions", 
-        easy_close = TRUE, 
+        easyClose = TRUE, 
         size = "l",
         div(
           style = "max-height: 400px; overflow-y: auto; padding-right: 10px;",
@@ -123,7 +130,7 @@ server <- function(input, output) {
             "2026-2027 hunting season. The number of registrations accepted",
             "may be less than the number of registrations submitted, because",
             "registrations are dropped if they are missing hunter contact",
-            "information, have bad bag values, or posess other major errors."),
+            "information, have bad bag values, or possess other major errors."),
           p(strong("Accepted 2027"), 
             "- Registrations accepted for the upcoming 2027-2028 hunting",
             "season. These registrations will be sample eligible next season."),
@@ -144,9 +151,10 @@ server <- function(input, output) {
       bslib::page_fillable(
         fillable_mobile = TRUE,
         bslib::card(
+          class = "about-card-outer",
           bslib::card_header("About"),
           bslib::card_body(
-            class = "special_nav",
+            class = "about-card",
             shiny::includeMarkdown("about.md")),
           height = "100%"
         )
@@ -159,6 +167,8 @@ server <- function(input, output) {
       bslib::page_fillable(
         fillable_mobile = TRUE,
         bslib::layout_columns(
+          class = "kpi-grid",
+          col_widths = bslib::breakpoints(sm = 12, md = 3),
           bslib::value_box(
             title = "Days left",
             showcase = bsicons::bs_icon("clock-history"),
@@ -202,36 +212,40 @@ server <- function(input, output) {
       bslib::page_fillable(
         fillable_mobile = TRUE,
         bslib::layout_column_wrap(
+          class = "detail-layout",
           height = "100%",
+          heights_equal = "row",
           style = bslib::css(grid_template_columns = "3fr 1fr"),
-          bslib::navset_card_tab(
-            title = input$stateChosen,
-            bslib::nav_spacer(),
-            bslib::nav_panel(
-              "Overview",
-              plotly::plotlyOutput("state_overview_plot")
-            ),
-            bslib::nav_panel(
-              "Submission",
-              plotly::plotlyOutput("state_plot"),
-              shiny::actionButton(
-                "show", 
-                label = "Legend definitions",
-                icon = bsicons::bs_icon("info-circle"),
-                width = "33%"),
-              class = "submission_tab"
+          htmltools::tagAppendAttributes(
+            bslib::navset_card_tab(
+              title = input$stateChosen,
+              bslib::nav_spacer(),
+              bslib::nav_panel(
+                "Overview",
+                plotly::plotlyOutput("state_overview_plot")
               ),
-            bslib::nav_panel(
-              "Acceptance",
-              DT::dataTableOutput("file_table"),
-              p(".", class = "spacer")
-            ),
-            bslib::nav_panel(
-              "Tardiness",
-              plotly::plotlyOutput("lag_plot")
-            )
-            ),
+              bslib::nav_panel(
+                "Submission",
+                plotly::plotlyOutput("state_plot"),
+                shiny::actionButton(
+                  "show", 
+                  label = "Legend definitions",
+                  icon = bsicons::bs_icon("info-circle"),
+                  width = "33%")
+                ),
+              bslib::nav_panel(
+                "Acceptance",
+                DT::dataTableOutput("file_table"),
+                p(".", class = "spacer")
+              ),
+              bslib::nav_panel(
+                "Tardiness",
+                plotly::plotlyOutput("lag_plot")
+              )
+              ),
+            class = "state-tabs"),
           bslib::layout_column_wrap(
+            class = "kpi-grid",
             width = 1,
             heights_equal = "row",
             bslib::value_box(
@@ -303,7 +317,9 @@ server <- function(input, output) {
       bslib::page_fillable(
         fillable_mobile = TRUE,
         bslib::layout_column_wrap(
+          class = "detail-layout",
           height = "100%",
+          heights_equal = "row",
           style = bslib::css(grid_template_columns = "3fr 1fr"),
           bslib::card(
             bslib::card_header(input$flyw),
@@ -320,6 +336,7 @@ server <- function(input, output) {
               plotly::plotlyOutput("fly_web"))
           ),
           bslib::layout_column_wrap(
+            class = "kpi-grid",
             width = 1,
             heights_equal = "row",
             bslib::value_box(
@@ -487,31 +504,33 @@ server <- function(input, output) {
       )
   )
   
-  dataByFlyway <- shiny::reactive({
-    
-    season_sums |> 
-      dplyr::select(c("dl_cycle", "dl_state", "final_n", "fl")) |> 
-      dplyr::filter(fl == input$flyw) |> 
-      dplyr::left_join(
-        sched |> 
-          dplyr::rename(dl_cycle = `Download Cycle`),
-        by = "dl_cycle") |> 
-      dplyr::mutate(
-        fct_dl_cycle = 
-          factor(
-            dl_cycle,
-            levels = sched$`Download Cycle`),
-        current = 
-          ifelse(
-            as.integer(.data$fct_dl_cycle) <= 
-              as.integer(factor(todays_dl, levels = sched$`Download Cycle`)),
-            "current",
-            "future")) 
-    
-      })
+  # dataByFlyway <- shiny::reactive({
+  #   req(input$flyw)
+  #   
+  #   season_sums |> 
+  #     dplyr::select(c("dl_cycle", "dl_state", "final_n", "fl")) |> 
+  #     dplyr::filter(fl == input$flyw) |> 
+  #     dplyr::left_join(
+  #       sched |> 
+  #         dplyr::rename(dl_cycle = `Download Cycle`),
+  #       by = "dl_cycle") |> 
+  #     dplyr::mutate(
+  #       fct_dl_cycle = 
+  #         factor(
+  #           dl_cycle,
+  #           levels = sched$`Download Cycle`),
+  #       current = 
+  #         ifelse(
+  #           as.integer(.data$fct_dl_cycle) <= 
+  #             as.integer(factor(todays_dl, levels = sched$`Download Cycle`)),
+  #           "current",
+  #           "future")) 
+  #   
+  #     })
   
   dataByState <- 
     shiny::reactive({
+      req(input$stateChosen)
       
       # Get the state abbreviation for the chosen state name input
       stateChosen_abbr <- 
@@ -603,6 +622,7 @@ server <- function(input, output) {
   
   dataByStateIssuance <- 
     shiny::reactive({
+      req(input$stateChosen)
       
       # Get the state abbreviation for the chosen state name input
       stateChosen_abbr <- 
@@ -635,6 +655,7 @@ server <- function(input, output) {
   
   dataByStateIssuancePast <- 
     shiny::reactive({
+      req(input$stateChosen)
       
       # Get the state abbreviation for the chosen state name input
       stateChosen_abbr <- 
@@ -716,7 +737,8 @@ server <- function(input, output) {
         y = "Number of registrations",
         color = "",
         linewidth = "") +
-      ggplot2::scale_y_continuous(label = scales::comma) +
+      ggplot2::scale_y_continuous(
+        labels = scales::label_number(scale_cut = scales::cut_short_scale())) +
       ggplot2::scale_x_date(
         breaks = lubridate::mdy(sched$Date),
         labels = sched$cyc) +
@@ -728,7 +750,18 @@ server <- function(input, output) {
         axis.text.x = 
           ggplot2::element_text(angle = 45, vjust = 1, hjust = 1))
     
-    plotly::ggplotly(cumulative_plot, tooltip = "text")
+    is_mobile <- !is.null(input$win_width) && input$win_width < 768
+    
+    plotly::ggplotly(cumulative_plot, tooltip = "text") |>
+      plotly::layout(
+        margin = list(b = if (is_mobile) 120 else 60),
+        legend =
+          if (is_mobile) {
+            list(orientation = "h", xanchor = "center", x = 0.5, y = -0.35)
+          } else {
+            list(orientation = "v", x = 1.02, y = 1, xanchor = "left")
+          }
+      )
   })
   
   output$state_overview_plot <- plotly::renderPlotly({
@@ -749,7 +782,7 @@ server <- function(input, output) {
             color = .data$name,
             group = .data$name,
             text = paste0("<b>Category:</b> ", .data$name, "<br>",
-                          "<b>Upload date:</b> ", 
+                          "<b>Issue date:</b> ", 
                           format(.data$issue_date, "%B %d, %Y"), "<br>",
                           "<b>Registrations issued:</b> ",
                           format.default(.data$n, big.mark = ",")
@@ -763,7 +796,7 @@ server <- function(input, output) {
             color = .data$name,
             group = .data$name,
             text = paste0("<b>Category:</b> ", .data$name, "<br>",
-                          "<b>Upload date:</b> ", 
+                          "<b>Issue date:</b> ", 
                           format(.data$issue_date, "%B %d, %Y"), "<br>",
                           "<b>Registrations issued:</b> ",
                           format.default(.data$n, big.mark = ",")
@@ -774,7 +807,7 @@ server <- function(input, output) {
           y = "Number of registrations",
           color = "",
           linewidth = "") +
-        ggplot2::scale_y_continuous(label = scales::comma) +
+        ggplot2::scale_y_continuous(labels = scales::comma) +
         ggplot2::scale_x_date(date_breaks = "2 months", date_labels = "%b") +
         ggplot2::scale_color_manual(
           values = c("Last season" = "#F2B028",
@@ -805,7 +838,7 @@ server <- function(input, output) {
           y = "Number of registrations",
           color = "",
           linewidth = "") +
-        ggplot2::scale_y_continuous(label = scales::comma) +
+        ggplot2::scale_y_continuous(labels = scales::comma) +
         ggplot2::scale_x_date(date_breaks = "2 months", date_labels = "%b") +
         ggplot2::scale_color_manual(
           values = c("Last season" = "#F2B028",
@@ -824,6 +857,7 @@ server <- function(input, output) {
   })
   
   output$fly_web <- plotly::renderPlotly({
+    req(input$flyw)
     
     web_data <-
       big_data_by_state2 |> 
@@ -877,7 +911,7 @@ server <- function(input, output) {
       plotly::layout(
         polar = list(
           radialaxis = list(
-            visible = T,
+            visible = TRUE,
             range = c(0, 100),
             ticksuffix = "%",
             tickangle = 0,
@@ -891,6 +925,7 @@ server <- function(input, output) {
   })
   
   output$lag_plot <- plotly::renderPlotly({
+    req(input$stateChosen)
     
     stateChosen_abbr <- 
       state_lookup$state_abbr[state_lookup$state_name == input$stateChosen]
@@ -961,7 +996,7 @@ server <- function(input, output) {
         x = "Upload date", 
         y = "Number of registrations",
         fill = "") +
-      ggplot2::scale_y_continuous(label = scales::comma) +
+      ggplot2::scale_y_continuous(labels = scales::comma) +
       ggplot2::scale_x_date(
         breaks = 
           c(lubridate::mdy("August 1, 2026"), lubridate::mdy(sched$Date)),

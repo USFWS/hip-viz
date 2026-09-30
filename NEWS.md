@@ -1,10 +1,30 @@
 # hip-viz (dev)
 
+## General updates and improvements
 - Use `today()` for the last data update date.
 - Move days left in season countdown calculation to `app.R` so that it changes every day, not just when the pin is updated.
 - Delete days left from `pin_spec.R`.
 - Add late submitted registrations to the "last season" State overview plot data.
 - Exclude MO lifetime licenses from State overview plot data.
+
+## Mobile layout improvements
+- Title and subtitle font smaller.
+- Reposition "last updated" date reliably on desktop and mobile.
+- Shift KPI boxes into a 2x2 grid.
+- About page text surrounded by card box, scrolls with screen.
+- Adjusted state view tabs so they don't wrap.
+- No horizontal scroll on state acceptance table.
+- Reactively move the legend on the cumulative totals plot so that it isn't vertically squished on desktop or horizontally squished on mobile.
+
+## Minor changes
+- Fixed typo in `shiny::modalDialog` from `easy_close` to `easyClose`.
+- Fixed typo in legend definitions ("possess").
+- Commented out `dataByFlyway()` since it isn't used.
+- Added `req()` tags to reactive chunks.
+- Changed "Totals" tab y-axis labels to `3M` format instead of `3,000,000`.
+- Fixed typo in `state_overview_plot`... changed "upload date" to "issue date".
+- Fixed typos in `scale_y_continuous()` functions from `label` to `labels`.
+
 
 # hip-viz 2026.0.1
 
