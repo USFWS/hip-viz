@@ -284,8 +284,12 @@ mean_big_data_by_flyway <-
 
 # Summary of last season's issue dates for each state
 issue_date_summary_past <- 
-  readr::read_csv(paste0(data_path_past, "issue_date_summary.csv")) |> 
-  dplyr::count(dl_state, issue_date)
+  readr::read_csv(
+    paste0(data_path_past, "issue_date_summary_revised_postseason.csv")) |> 
+  dplyr::count(dl_state, issue_date) |> 
+  # Don't include issue dates from Missouri lifetime licenses
+  dplyr::filter_out(
+    dl_state == "MO" & issue_date < lubridate::mdy("05/01/2025"))
 
 # Current season issue dates for each download and state
 issue_date_summary <- 

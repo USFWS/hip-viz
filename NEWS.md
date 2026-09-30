@@ -2,6 +2,9 @@
 
 - Use `today()` for the last data update date.
 - Move days left in season countdown calculation to `app.R` so that it changes every day, not just when the pin is updated.
+- Delete days left from `pin_spec.R`.
+- Add late submitted registrations to the "last season" State overview plot data.
+- Exclude MO lifetime licenses from State overview plot data.
 
 # hip-viz 2026.0.1
 

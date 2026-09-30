@@ -4057,10 +4057,10 @@
       "checksum": "fc6a59091e5f9ef213685acee474c71c"
     },
     "app.R": {
-      "checksum": "8974cc166e93825d5aecc2e6e1aa9e47"
+      "checksum": "126a6d5ebd46690c8a32ae55252ed90b"
     },
     "code.json": {
-      "checksum": "674c5de5ac2b3530b5fffa1932dc76a1"
+      "checksum": "752c6b8718f39d42eade2c77eda3c5e9"
     },
     "data/2024-2025/DL0800_totals.csv": {
       "checksum": "719379e5a031b75e4547415ac95879f9"
@@ -4173,26 +4173,29 @@
     "data/2025-2026/issue_date_summary.csv": {
       "checksum": "9517e1ffd177196c0336fe8c3e9e2274"
     },
+    "data/2025-2026/issue_date_summary_revised_postseason.csv": {
+      "checksum": "5ce4503d392f37f449831190a95a3428"
+    },
     "data/2026-2027/db_state_totals_future.csv": {
       "checksum": "366fe76780ea72fc7f6dbc9f7e58f9b1"
     },
     "data/2026-2027/db_state_totals_without_carryover.csv": {
-      "checksum": "0c9d10fbb384a28733ae25b4c2065140"
+      "checksum": "d596fae05177981b41337a2f792c3c0e"
     },
     "data/2026-2027/db_state_tots.csv": {
-      "checksum": "7b9126bff50563cc532dcc155f3b5731"
+      "checksum": "02039a6b52f2a770077e316818a93f94"
     },
     "data/2026-2027/db_state_tots_2025-2026.csv": {
       "checksum": "ea383eddd601763e4b2328f0e70bfc1c"
     },
     "data/2026-2027/db_tots.csv": {
-      "checksum": "18f7dd63881267e2d6d7b9e94d1985ec"
+      "checksum": "717017ee0a97534b4a8ac4cf0f72cb78"
     },
     "data/2026-2027/db_tots_2025-2026.csv": {
       "checksum": "2d678459746a38e10470f86a07326ba1"
     },
     "data/2026-2027/db_tots_carryover.csv": {
-      "checksum": "e7b46215971c33588387351414b32873"
+      "checksum": "05d166629c244cfede5e2b4937365bda"
     },
     "data/2026-2027/DL0800_sums.csv": {
       "checksum": "054c77ce6672697af581706c87ce91b9"
@@ -4203,8 +4206,11 @@
     "data/2026-2027/DL0901_sums.csv": {
       "checksum": "7d5bee3fda73e0fbc822caa2376fcbd9"
     },
+    "data/2026-2027/DL0902_sums.csv": {
+      "checksum": "d063da2d6a001373f43bff8e3c581569"
+    },
     "data/2026-2027/issue_date_summary.csv": {
-      "checksum": "bbd6342a0096db87f371761c861193e5"
+      "checksum": "166a4407548c2d8fbffe47cbdcdf519c"
     },
     "DISCLAIMER.md": {
       "checksum": "bbc62c1c9c11628df11a4fb9d6422794"
@@ -4215,6 +4221,9 @@
     "EXCLUDE_2024_registration_totals_from_db.R": {
       "checksum": "098056c639daa6f6be473cc277ee27c0"
     },
+    "EXCLUDE_2025_registration_totals_from_db.R": {
+      "checksum": "9e2fbb5ee4af78cba2ae30c2b6981b54"
+    },
     "LICENSE": {
       "checksum": "473a7959b44c2f42c375d904305b6307"
     },
@@ -4222,13 +4231,13 @@
       "checksum": "5f0c71457df0f821ff979afc9d2d5a91"
     },
     "NEWS.md": {
-      "checksum": "cfd7046a5e59203170d17c447b0bac63"
+      "checksum": "325dc8a666474655ff9fab30988a97b9"
     },
     "R/magic_number.R": {
       "checksum": "5f7eb379c464396fd6325361287554c6"
     },
     "R/pin_spec.R": {
-      "checksum": "e51cf35179ee6a37be779a02fb1b990d"
+      "checksum": "6902d5a1dff8a9c22c230a582a2e9716"
     },
     "README.md": {
       "checksum": "bc85174de5496a6dbc8091c73b944e62"
@@ -4243,7 +4252,7 @@
       "checksum": "63596d25609dd8d2b05bcbc8bea25ba4"
     },
     "write_pin.R": {
-      "checksum": "dfefb7b647882831ec44d7dd43fe9022"
+      "checksum": "3c0e4427b6dd4f95f754d3bb8354910e"
     },
     "www/fws.svg": {
       "checksum": "91403f257691c59a36b43504cb398240"
