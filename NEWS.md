@@ -1,6 +1,7 @@
 # hip-viz (dev)
 
-- Use `today()` for the last update date.
+- Use `today()` for the last data update date.
+- Move days left in season countdown calculation to `app.R` so that it changes every day, not just when the pin is updated.
 
 # hip-viz 2026.0.1
 

@@ -435,17 +435,12 @@ overunder_fl <-
         "icon-negative-color")
   )
 
-# Calculate how many days are left in the season
-days_left_actual <- lubridate::mdy("03/11/2027") - lubridate::today()
-days_left <- ifelse(days_left_actual < 0, 0, days_left_actual)
-
 # pin ---------------------------------------------------------------------
 
 # Bundle all used data objects into one named list
 bundle <- list(
   latest_commit_date = latest_commit_date,
   todays_dl = todays_dl,
-  days_left = days_left,
   sched = sched,
   state_lookup = state_lookup,
   db_totals = db_totals,

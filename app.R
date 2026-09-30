@@ -11,6 +11,10 @@ board  <- pins::board_connect()
 bundle <- board |> pins::pin_read("abby_walter@fws.gov/hip-viz-data_2026")
 list2env(bundle, envir = environment())
 
+# Calculate how many days are left in the season
+days_left_actual <- lubridate::mdy("03/11/2027") - lubridate::today()
+days_left_value <- ifelse(days_left_actual < 0, 0, days_left_actual)
+
 # Sketch an HTML table format
 sketch <- 
   htmltools::withTags(
@@ -159,7 +163,7 @@ server <- function(input, output) {
             title = "Days left",
             showcase = bsicons::bs_icon("clock-history"),
             theme = "fws-tan",
-            value = days_left
+            value = days_left_value
           ),
           bslib::value_box(
             title = "Latest upload",
