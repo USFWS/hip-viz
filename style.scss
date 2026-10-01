@@ -186,12 +186,16 @@ table.dataTable thead th {
     grid-column: span 1 !important;
     min-width: 0;
   }
+  /* Make the width of the showcase icon smaller to prevent title wrapping */
+  .detail-layout .kpi-grid .bslib-value-box .value-box-grid {
+    grid-template-columns: 2rem 1fr !important;
+  }
   /* Make the boxes smaller */
   .kpi-grid .bslib-value-box {
     min-height: 0 !important;
     height: auto !important;
     margin: 0 !important;
-  
+
     .value-box-area {
       padding: 0.5rem 0.6rem !important;
     }
