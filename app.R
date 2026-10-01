@@ -864,6 +864,8 @@ server <- function(input, output) {
   output$fly_web <- plotly::renderPlotly({
     req(input$flyw)
     
+    is_mobile <- !is.null(input$win_width) && input$win_width < 768
+    
     web_data <-
       big_data_by_state2 |> 
       dplyr::filter(fl == input$flyw) |> 
@@ -923,7 +925,18 @@ server <- function(input, output) {
             tickfont = list(size = 10),
             tickvals = c(0, 25, 50, 75, 100)
           )
-        )
+        ),
+        margin = 
+          list(
+            l = 40, r = 40,
+            b = if (is_mobile) 120 else 60
+          ),
+        legend =
+          if (is_mobile) {
+            list(orientation = "h", xanchor = "center", x = 0.5, y = -0.35)
+          } else {
+            list(orientation = "v", x = 1.02, y = 1, xanchor = "left")
+          }
       )
     
     fig 

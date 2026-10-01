@@ -16,6 +16,7 @@
 - Adjusted state view tabs so they don't wrap.
 - No horizontal scroll on state acceptance table.
 - Reactively move the legend on the cumulative totals plot so that it isn't vertically squished on desktop or horizontally squished on mobile.
+- Reactively move the legend on the flyway plot so that it doesn't render too small; adjusted to be centered.
 
 ## Minor changes
 - Fixed typo in `shiny::modalDialog` from `easy_close` to `easyClose`.
