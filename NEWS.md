@@ -6,6 +6,7 @@
 - Delete days left from `pin_spec.R`.
 - Add late submitted registrations to the "last season" State overview plot data.
 - Exclude MO lifetime licenses from State overview plot data.
+- Replaced the USGS default favicon with USFWS logo.
 
 ## Mobile layout improvements
 - Title and subtitle font smaller.
@@ -24,7 +25,6 @@
 - Changed "Totals" tab y-axis labels to `3M` format instead of `3,000,000`.
 - Fixed typo in `state_overview_plot`... changed "upload date" to "issue date".
 - Fixed typos in `scale_y_continuous()` functions from `label` to `labels`.
-
 
 # hip-viz 2026.0.1
 

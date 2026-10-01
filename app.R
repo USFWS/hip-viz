@@ -49,6 +49,11 @@ colors <-
 # Define UI
 ui <- 
   bslib::page_fillable(
+    # Change the favicon from USGS logo to USFWS logo
+    tags$head(
+      tags$link(rel = "icon", type = "image/x-icon", href = "favicon.ico"),
+      tags$link(rel = "apple-touch-icon", sizes = "180x180", href = "apple-icon.png")
+    ),
     class = "app-body",
     # Browser window title
     title = "USFWS Harvest Information Program Dashboard",
