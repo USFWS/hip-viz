@@ -1,3 +1,8 @@
+# hip-viz 2026.0.3
+
+## Bug fixes
+- Delete `tests/testthat/test-magic_number.R`.
+
 # hip-viz 2026.0.2
 
 ## Major changes
