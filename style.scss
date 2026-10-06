@@ -34,7 +34,6 @@
   padding-top: 0 !important;
 }
 
-/* Value box style */
 .bslib-value-box {
   .value-box-showcase .bi {
     font-size: clamp(0.01em, 15cqw, 3em) !important;
@@ -57,6 +56,33 @@
   justify-content: center !important;
 }
 
+/* Desktop: don't let showcase icons be centered on state or flyway pages */
+@media (min-width: 576px) {
+  .detail-layout .kpi-grid .bslib-value-box .value-box-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+  }
+
+  .detail-layout .kpi-grid .bslib-value-box .value-box-showcase {
+    flex: 0 0 3rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    .bi { font-size: 2rem !important; }
+  }
+
+  .detail-layout .kpi-grid .bslib-value-box .value-box-area {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    padding: 0.6rem 0.8rem 0.6rem 0 !important;
+  }
+
+}
+  
 /* Value box color themes */
 .bg-fws-tan {
   color: #67532f;
@@ -149,7 +175,7 @@ p.spacer {
   color: #FFFFFF !important;
   padding-bottom: 15px !important;
 }
-/* Vertically center the datatable headers */
+/* Vertically align the datatable headers */
 table.dataTable thead th {
   vertical-align: top;
 }
@@ -186,10 +212,28 @@ table.dataTable thead th {
     grid-column: span 1 !important;
     min-width: 0;
   }
-  /* Make the width of the showcase icon smaller to prevent title wrapping */
-  .detail-layout .kpi-grid .bslib-value-box .value-box-grid {
-    grid-template-columns: 2rem 1fr !important;
+  
+  /* State and flyway mobile KPI boxes only */
+  .detail-layout .kpi-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+    
+    .bslib-value-box {
+      /* Make showcase icon smaller to prevent title wrapping */
+      .value-box-grid {
+        grid-template-columns: 2rem 1fr !important;
+      }
+      /* Make the value text unable to wrap */
+      .value-box-value {
+        font-size: 1.2rem !important;
+        white-space: nowrap !important;
+        overflow: visible;
+        line-height: 1.2;
+      }
+    }
   }
+  
   /* Make the boxes smaller */
   .kpi-grid .bslib-value-box {
     min-height: 0 !important;

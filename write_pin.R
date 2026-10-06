@@ -134,7 +134,7 @@ db_state_totals_future <-
   dplyr::left_join(
     sched |> dplyr::rename(dl_cycle = `Download Cycle`),
     by = "dl_cycle") |> 
-  dplyr::mutate(name = "Accepted 2026") |> 
+  dplyr::mutate(name = "Accepted 2027") |> 
   dplyr::rename(value = "cumulative_registrations")
 
 # Registrations submitted this season
@@ -194,6 +194,7 @@ state_summary_table <-
 
 # Define the most recent download
 todays_dl <- dplyr::slice_tail(db_totals, n = 1)$dl_cycle
+todays_date <- sched$Date[sched$`Download Cycle` == as.character(todays_dl)]
 
 # Define the most recent git commit
 latest_commit_date <- lubridate::today()
@@ -367,77 +368,126 @@ lag_summary_fl <-
     .by = "fl"
   ) 
 
-# By state comparison of current season cumulative HIP total vs previous season
-# cumulative HIP total
-overunder <-
-  # Get past season cum total as of THIS TIME LAST YEAR
-  db_st_totals_last_szn |> 
-  dplyr::select(dl_state, Date, past_cumulative = cumulative_registrations) |> 
-  dplyr::mutate(Date = lubridate::mdy(Date)) |> 
-  dplyr::filter(Date < lubridate::today() - 365) |> 
-  dplyr::filter(Date == max(Date), .by = "dl_state") |> 
-  # This is the cumulative sum per state as of NOW, total hip for current
-  # hunting season; including carryover registrations
+# Create a lookup table of registration counts for the current issue window
+# between this season and last season
+updown <-
+  issue_date_summary_past |> 
+  # Filter the registrations from last season to only include those up to the
+  # most recent issue date possible, which is the most recent upload date on the
+  # schedule
+  dplyr::filter(
+    issue_date <= lubridate::mdy(todays_date) - lubridate::years(1)) |> 
+  # Sum registrations by state (for last season, based on the current window)
+  dplyr::summarize(past_sum_to_date = sum(n), .by = "dl_state") |> 
+  # Join in current registration totals
   dplyr::left_join(
-    big_data_by_state3 |> 
-      dplyr::select(-"n") |> 
-      dplyr::rename(current_cumulative = sum_db), 
-    by = "dl_state"
-  ) |> 
+    issue_date_summary |> 
+      dplyr::count(dl_state, name = "current_total"),
+    by = "dl_state") |> 
   dplyr::mutate(
-    overunder_pct = 
-      round(
-        ((current_cumulative - past_cumulative) / past_cumulative) * 100, 
-        1),
-    .before = "state_name"
-  ) |> 
-  dplyr::mutate(
+    # If no data received yet for a state, set to 0
+    current_total = ifelse(is.na(current_total), 0, current_total),
+    # Calculate percent change in totals
+    pct_chg = 
+      round(((current_total - past_sum_to_date) / past_sum_to_date) * 100, 1),
     emoji = 
       ifelse(
-        overunder_pct > 0,
+        pct_chg > 0,
         "caret-up",
         "caret-down"),
     emoji_color = 
       ifelse(
-        overunder_pct > 0,
+        pct_chg > 0,
         "icon-positive-color",
         "icon-negative-color")
   ) |> 
-  # If any states haven't submitted data yet, don't include them
-  dplyr::filter(!is.na(current_cumulative)) |> 
-  # Full join with all states so that the values can be populated with NA
-  dplyr::right_join(
-    dplyr::tibble(
-      dl_state = state_lookup$state_abbr,
-      state_name = state_lookup$state_name),
-    by = c("dl_state", "state_name")) 
+# # If any states haven't submitted data yet, don't include them
+# dplyr::filter(!is.na(current_cumulative)) |> 
+# Full join with all states to include state names
+dplyr::right_join(
+  dplyr::tibble(
+    dl_state = state_lookup$state_abbr,
+    state_name = state_lookup$state_name),
+  by = "dl_state")
 
 # By flyway comparison of current season cumulative HIP total vs previous season
 # cumulative HIP total
-overunder_fl <-
-  overunder |> 
-  dplyr::select(dl_state, past_cumulative, current_cumulative) |> 
+updown_fl <-
+  updown |> 
+  dplyr::select(dl_state, past_sum_to_date, current_total) |> 
   migbirdHIP:::assignFlyway("dl_state", "fl") |> 
   dplyr::summarize(
-    fl_past_cumulative = sum(past_cumulative, na.rm = TRUE),
-    fl_current_cumulative = sum(current_cumulative, na.rm = TRUE),
+    fl_past_cumulative = sum(past_sum_to_date, na.rm = TRUE),
+    fl_current_cumulative = sum(current_total, na.rm = TRUE),
     .by = "fl") |> 
   dplyr::mutate(
-    overunder_pct = 
+    pct_chg = 
       round(
         ((fl_current_cumulative - fl_past_cumulative) / fl_past_cumulative) * 100, 
         1),
     emoji = 
       ifelse(
-        overunder_pct > 0,
+        pct_chg > 0,
         "caret-up",
         "caret-down"),
     emoji_color = 
       ifelse(
-        overunder_pct > 0,
+        pct_chg > 0,
         "icon-positive-color",
         "icon-negative-color")
   )
+
+# Relative progress - how many sample eligible registrations have been received
+# so far this season, the total number of sample eligible registrations received
+# last season, and the proportion of those we have received per state
+progress <-
+  db_st_totals_last_szn |> 
+  dplyr::summarize(
+    total_last_season = sum(n_registrations),
+    .by = "dl_state"
+  ) |> 
+  dplyr::left_join(
+    big_data_by_state3 |> 
+      dplyr::select(-c("n", "state_name")),
+    by = "dl_state"
+  ) |> 
+  dplyr::mutate(
+    proportion_received_so_far = 
+      ifelse(
+        is.na(sum_db),
+        0,
+        round(sum_db/total_last_season, 3)
+      )
+  ) |> 
+  dplyr::relocate(sum_db, .before = "total_last_season") |> 
+  dplyr::relocate(proportion_received_so_far, .after = "total_last_season") |> 
+  dplyr::left_join(
+    state_lookup |> 
+      dplyr::rename(dl_state = state_abbr),
+    by = "dl_state"
+  ) |> 
+  dplyr::mutate(ls = format.default(total_last_season, big.mark = ","))
+
+# Flyway relative progress
+progress_fl <-
+  db_st_totals_last_szn |> 
+  dplyr::summarize(
+    total_last_season = sum(n_registrations),
+    .by = "dl_state"
+  ) |> 
+  dplyr::left_join(
+    big_data_by_state3 |> 
+      dplyr::select(-c("n", "state_name")),
+    by = "dl_state"
+  ) |> 
+  migbirdHIP:::assignFlyway("dl_state", "fl") |> 
+  dplyr::summarize(
+    fl_sum_db = sum(sum_db, na.rm = T),
+    fl_total_last_season = sum(total_last_season),
+    proportion_received_so_far = round(fl_sum_db / fl_total_last_season, 3),
+    .by = "fl"
+  ) |> 
+  dplyr::mutate(ls = format.default(fl_total_last_season, big.mark = ","))
 
 # pin ---------------------------------------------------------------------
 
@@ -455,8 +505,10 @@ bundle <- list(
   big_data_by_state3 = big_data_by_state3,
   state_summary_table = state_summary_table,
   season_sums = season_sums,
-  overunder = overunder,
-  overunder_fl = overunder_fl,
+  updown = updown,
+  updown_fl = updown_fl,
+  progress = progress,
+  progress_fl = progress_fl,
   issue_date_summary = issue_date_summary,
   issue_date_summary_past = issue_date_summary_past,
   lag = lag,

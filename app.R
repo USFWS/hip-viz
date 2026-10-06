@@ -118,7 +118,7 @@ ui <-
 
 # server ------------------------------------------------------------------
 
-# Define server logic required to draw a histogram
+# Define server logic
 server <- function(input, output) {
   
   shiny::observe({ 
@@ -197,7 +197,7 @@ server <- function(input, output) {
           ),
           bslib::value_box(
             title = "Total registrations",
-            showcase = bsicons::bs_icon("database-add"),
+            showcase = bsicons::bs_icon("people"),
             theme = "fws-blu",
             value = 
               format.default(
@@ -240,7 +240,12 @@ server <- function(input, output) {
                 ),
               bslib::nav_panel(
                 "Acceptance",
-                DT::dataTableOutput("file_table"),
+                shinycssloaders::withSpinner(
+                  DT::dataTableOutput("file_table"),
+                  type = 6,
+                  color = "#007AC3",
+                  proxy.height = "300px"
+                ),
                 p(".", class = "spacer")
               ),
               bslib::nav_panel(
@@ -259,16 +264,47 @@ server <- function(input, output) {
                   "Total registrations",
                   bslib::tooltip(
                     bsicons::bs_icon("info-circle"),
-                    htmltools::HTML(
-                      "Total registrations accepted for the current season. Year-over-year comparison to last season is in parentheses, if available.<br><br>Very high YoY percentages (greater than 100%) indicate data were submitted late last season."
+                    "Total registrations accepted for the current season."
+                  )
+                ),
+              showcase = bsicons::bs_icon("people"),
+              # Current registrations and percent change from last season based
+              # on the current issue window
+              value = state_current_value()
+            ),
+            bslib::value_box(
+              title =
+                shiny::span(
+                  "vs. last season",
+                  bslib::tooltip(
+                    bsicons::bs_icon("info-circle"),
+                    paste(
+                      "Percent change in accepted registrations compared to",
+                      "the same time period last season."
                     )
                   )
                 ),
-              showcase = bsicons::bs_icon("person-plus"),
-              # Do the value reactively. Returns a blank for states that did not
-              # submit data before today's date last year (e.g., there is
-              # no previous data to calculate the YoY percent)
-              value = box_value()
+              showcase = bsicons::bs_icon("calculator"),
+              value = state_comparison_value()
+            ),
+            bslib::value_box(
+              title =
+                shiny::span(
+                  "Progress",
+                  bslib::tooltip(
+                    bsicons::bs_icon("info-circle"),
+                    paste(
+                      "Accepted registrations as a percentage of last season's",
+                      "cumulative total."
+                    )
+                  )
+                ),
+              showcase = bsicons::bs_icon("graph-up-arrow"),
+              # Last season's total progress bar
+              progress_bar(
+                progress$proportion_received_so_far[progress$state_name == input$stateChosen],
+                progress$ls[progress$state_name == input$stateChosen]
+              )
             ),
             bslib::value_box(
               title =
@@ -281,7 +317,7 @@ server <- function(input, output) {
                     )
                   )
                 ),
-              showcase = bsicons::bs_icon("download"),
+              showcase = bsicons::bs_icon("file-arrow-down"),
               value =
                 paste0(big_data_by_state2$participation[big_data_by_state2$state_name == input$stateChosen],
                        "%")
@@ -295,7 +331,7 @@ server <- function(input, output) {
                     "Proportion of registrations accepted."
                   )
                 ),
-              showcase = bsicons::bs_icon("clipboard-check"),
+              showcase = bsicons::bs_icon("file-check"),
               value =
                 paste0(big_data_by_state2$acceptance_text[big_data_by_state2$state_name == input$stateChosen],
                        "%")
@@ -306,10 +342,12 @@ server <- function(input, output) {
                   "Tardiness rate",
                   bslib::tooltip(
                     bsicons::bs_icon("info-circle"),
-                    "Proportion of registrations issued more than 30 days before we received them."
+                    paste(
+                      "Proportion of registrations issued more than 30 days",
+                      "before we received them.")
                   )
                 ),
-              showcase = bsicons::bs_icon("hourglass-split"),
+              showcase = bsicons::bs_icon("file-break"),
               value =
                 lag_summary$p30_text[lag_summary$state_name == input$stateChosen]
             )
@@ -350,21 +388,45 @@ server <- function(input, output) {
                   "Total registrations",
                   bslib::tooltip(
                     bsicons::bs_icon("info-circle"),
-                    "Total registrations accepted for the current season. Year-over-year comparison to last season is in parentheses."
+                    "Total registrations accepted for the current season."
                   )
                 ),
-              showcase = bsicons::bs_icon("person-plus"),
-              value = 
-                shiny::p(
-                  shiny::uiOutput("fl_total", inline = TRUE),
-                  " (",
-                  shiny::uiOutput("fl_icon", inline = TRUE),
-                  " ",
-                  paste0(
-                    overunder_fl$overunder_pct[overunder_fl$fl == input$flyw],
-                    "%"),
-                  ")"
-                )
+              showcase = bsicons::bs_icon("people"),
+              value = shiny::uiOutput("fl_total", inline = TRUE)
+            ),
+            bslib::value_box(
+              title =
+                shiny::span(
+                  "vs. last season",
+                  bslib::tooltip(
+                    bsicons::bs_icon("info-circle"),
+                    paste(
+                      "Percent change in accepted registrations compared to",
+                      "the same time period last season."
+                    )
+                  )
+                ),
+              showcase = bsicons::bs_icon("calculator"),
+              value = flyway_comparison_value()
+            ),
+            bslib::value_box(
+              title =
+                shiny::span(
+                  "Progress",
+                  bslib::tooltip(
+                    bsicons::bs_icon("info-circle"),
+                    paste(
+                      "Accepted registrations as a percentage of last season's",
+                      "cumulative total."
+                    )
+                  )
+                ),
+              showcase = bsicons::bs_icon("graph-up-arrow"),
+              # Last season's total progress bar
+              progress_bar(
+                progress_fl$proportion_received_so_far[progress_fl$fl == input$flyw],
+                progress_fl$ls[progress_fl$fl == input$flyw]
+              )
             ),
             bslib::value_box(
               title = 
@@ -377,7 +439,7 @@ server <- function(input, output) {
                     )
                   )
                 ),
-              showcase = bsicons::bs_icon("download"),
+              showcase = bsicons::bs_icon("file-arrow-down"),
               value = 
                 paste0(
                   mean_big_data_by_flyway$mean_participation[mean_big_data_by_flyway$fl == input$flyw], 
@@ -392,7 +454,7 @@ server <- function(input, output) {
                     "Average proportion of registrations accepted."
                   )
                 ),
-              showcase = bsicons::bs_icon("clipboard-check"),
+              showcase = bsicons::bs_icon("file-check"),
               value = 
                 paste0(
                   mean_big_data_by_flyway$mean_acceptance[mean_big_data_by_flyway$fl == input$flyw], 
@@ -407,7 +469,7 @@ server <- function(input, output) {
                     "Proportion of registrations issued more than 30 days before we received them."
                   )
                 ),
-              showcase = bsicons::bs_icon("hourglass-split"),
+              showcase = bsicons::bs_icon("file-break"),
               value = 
                 lag_summary_fl$p30_text[lag_summary_fl$fl == input$flyw]
             )
@@ -446,8 +508,8 @@ server <- function(input, output) {
     req(input$stateChosen) 
     
     shiny::icon(
-      name = overunder$emoji[overunder$state_name == input$stateChosen],
-      class = overunder$emoji_color[overunder$state_name == input$stateChosen])
+      name = updown$emoji[updown$state_name == input$stateChosen],
+      class = updown$emoji_color[updown$state_name == input$stateChosen])
   })
   
   output$fl_icon <- shiny::renderUI({
@@ -455,15 +517,17 @@ server <- function(input, output) {
     req(input$flyw) 
     
     shiny::icon(
-      name = overunder_fl$emoji[overunder_fl$fl == input$flyw],
-      class = overunder_fl$emoji_color[overunder_fl$fl == input$flyw])
+      name = updown_fl$emoji[updown_fl$fl == input$flyw],
+      class = updown_fl$emoji_color[updown_fl$fl == input$flyw])
   })
   
   output$fl_total <- shiny::renderUI({
     # Check if input$flyw is available and not empty
     req(input$flyw) 
     
-    magic_number(mean_big_data_by_flyway$sum_total[mean_big_data_by_flyway$fl == input$flyw])
+    format.default(
+      mean_big_data_by_flyway$sum_total[mean_big_data_by_flyway$fl == input$flyw],
+      big.mark = ",")
   })
   
   output$file_table <- DT::renderDataTable(
@@ -680,28 +744,42 @@ server <- function(input, output) {
       
     })
   
-  box_value <- 
+  state_current_value <- 
     shiny::reactive({
       req(input$stateChosen)
       st <- input$stateChosen
-      pct <- overunder$overunder_pct[overunder$state_name == st]
       val <- format.default(
         big_data_by_state3$sum_db[big_data_by_state3$state_name == st],
         big.mark = ","
       )
       
-      if (is.na(pct)) {
-        shiny::p(val)
-      } else {
-        shiny::p(
-          val,
-          " (",
-          shiny::uiOutput("st_icon", inline = TRUE),
-          " ",
-          paste0(pct, "%"),
-          ")"
-        )
-      }
+      shiny::span(val)
+    })
+  
+  state_comparison_value <- 
+    shiny::reactive({
+      req(input$stateChosen)
+      pct <- updown$pct_chg[updown$state_name == input$stateChosen]
+      
+      shiny::span(
+        shiny::uiOutput("st_icon", inline = TRUE),
+        " ",
+        paste0(pct, "%"), 
+        class = "pct-text"
+      )
+    })
+  
+  flyway_comparison_value <- 
+    shiny::reactive({
+      req(input$flyw)
+      pct <- updown_fl$pct_chg[updown_fl$fl == input$flyw]
+      
+      shiny::span(
+        shiny::uiOutput("fl_icon", inline = TRUE),
+        " ",
+        paste0(pct, "%"), 
+        class = "pct-text"
+      )
     })
   
   output$cumulative_plot <- plotly::renderPlotly({

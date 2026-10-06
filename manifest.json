@@ -3290,6 +3290,37 @@
         "RemoteSha.Version": "1.14.0"
       }
     },
+    "shinycssloaders": {
+      "Source": "CRAN",
+      "Repository": "https://cran.rstudio.com",
+      "description": {
+        "Package": "shinycssloaders",
+        "Title": "Add Loading Animations to a 'shiny' Output While It's\nRecalculating",
+        "Version": "1.1.0",
+        "Authors@R": "c(\n    person(\"Dean\",\"Attali\",email=\"daattali@gmail.com\",role=c(\"aut\",\"cre\"),\n        comment = c(\"Maintainer/developer of shinycssloaders since 2019\", ORCID=\"0000-0002-5645-3493\")),\n    person(\"Andras\",\"Sali\",email=\"andras.sali@alphacruncher.hu\",role=c(\"aut\"),comment=\"Original creator of shinycssloaders package\"),\n    person(\"Luke\",\"Hass\",role=c(\"ctb\",\"cph\"),comment=\"Author of included CSS loader code\")\n    )",
+        "Description": "When a 'Shiny' output (such as a plot, table, map, etc.) is recalculating, it remains \n    visible but gets greyed out. Using 'shinycssloaders', you can add a loading animation (\"spinner\")\n    to outputs instead. By wrapping a 'Shiny' output in 'withSpinner()', a spinner will automatically\n    appear while the output is recalculating. You can also manually show and hide the spinner, or add\n    a full-page spinner to cover the entire page.\n    See the demo online at <https://daattali.com/shiny/shinycssloaders-demo/>.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://github.com/daattali/shinycssloaders,\nhttps://daattali.com/shiny/shinycssloaders-demo/",
+        "BugReports": "https://github.com/daattali/shinycssloaders/issues",
+        "Depends": "R (>= 3.1)",
+        "Imports": "digest, glue, grDevices, htmltools (>= 0.3.5), shiny",
+        "Suggests": "knitr, shinydisconnect, shinyjs",
+        "RoxygenNote": "7.2.3",
+        "Encoding": "UTF-8",
+        "NeedsCompilation": "no",
+        "Packaged": "2024-07-30 18:52:48 UTC; Dean",
+        "Author": "Dean Attali [aut, cre] (Maintainer/developer of shinycssloaders since\n    2019, <https://orcid.org/0000-0002-5645-3493>),\n  Andras Sali [aut] (Original creator of shinycssloaders package),\n  Luke Hass [ctb, cph] (Author of included CSS loader code)",
+        "Maintainer": "Dean Attali <daattali@gmail.com>",
+        "Repository": "CRAN",
+        "Date/Publication": "2024-07-30 22:30:02 UTC",
+        "Built": "R 4.6.1; ; 2026-07-18 03:34:00 UTC; windows",
+        "RemoteType": "standard",
+        "RemotePkgRef": "shinycssloaders",
+        "RemoteRef": "shinycssloaders",
+        "RemoteRepos": "https://cran.rstudio.com",
+        "RemoteSha.Version": "1.1.0"
+      }
+    },
     "snowflakeauth": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com",
@@ -4057,10 +4088,10 @@
       "checksum": "fc6a59091e5f9ef213685acee474c71c"
     },
     "app.R": {
-      "checksum": "126a6d5ebd46690c8a32ae55252ed90b"
+      "checksum": "01c6daa81ec22adaa8caced6d44ca366"
     },
     "code.json": {
-      "checksum": "752c6b8718f39d42eade2c77eda3c5e9"
+      "checksum": "2037145334c15725f28954900e867bc4"
     },
     "data/2024-2025/DL0800_totals.csv": {
       "checksum": "719379e5a031b75e4547415ac95879f9"
@@ -4231,19 +4262,19 @@
       "checksum": "5f0c71457df0f821ff979afc9d2d5a91"
     },
     "NEWS.md": {
-      "checksum": "325dc8a666474655ff9fab30988a97b9"
-    },
-    "R/magic_number.R": {
-      "checksum": "5f7eb379c464396fd6325361287554c6"
+      "checksum": "070fb41ceb0f05dacb19c72097654670"
     },
     "R/pin_spec.R": {
-      "checksum": "6902d5a1dff8a9c22c230a582a2e9716"
+      "checksum": "2e6a5c51a38ef79466838f8600eab574"
+    },
+    "R/progress_bar.R": {
+      "checksum": "1bff10251c7047af8c83155fba2543d4"
     },
     "README.md": {
       "checksum": "bc85174de5496a6dbc8091c73b944e62"
     },
     "style.scss": {
-      "checksum": "39e0543af5f46a45651d3b99c08a12c0"
+      "checksum": "aec2377cd65ff444ac9029d522ce8ded"
     },
     "tests/testthat/test-magic_number.R": {
       "checksum": "3abc8b9c81c3c10ed4a5d655798780fa"
@@ -4252,7 +4283,13 @@
       "checksum": "63596d25609dd8d2b05bcbc8bea25ba4"
     },
     "write_pin.R": {
-      "checksum": "3c0e4427b6dd4f95f754d3bb8354910e"
+      "checksum": "02d417cc0ea3d04244edad7f3a5ec636"
+    },
+    "www/apple-icon.png": {
+      "checksum": "ab8acecfa86c393f35f0cc1d99a9245e"
+    },
+    "www/favicon.ico": {
+      "checksum": "caae081019b89bd286b304e05fdd88e0"
     },
     "www/fws.svg": {
       "checksum": "91403f257691c59a36b43504cb398240"
