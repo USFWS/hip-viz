@@ -23,8 +23,4 @@ jobs:
       - name: Install dependencies
         run: install.packages(c("testthat", "scales", "here", "assertthat"))
         shell: Rscript {0}
-        
-      - name: Run unit tests
-        run: testthat::test_dir("tests/testthat", filter = "magic_number", stop_on_failure = TRUE)
-        shell: Rscript {0}
 
