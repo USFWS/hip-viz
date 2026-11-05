@@ -1,3 +1,8 @@
+# hip-viz 2026.0.4
+
+## Bug fixes
+- Stop using `shinycssloaders::withSpinner()` on the state Acceptance table because it causes the table to be too short.
+
 # hip-viz 2026.0.3
 
 ## Bug fixes

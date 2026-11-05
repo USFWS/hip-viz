@@ -240,12 +240,7 @@ server <- function(input, output) {
                 ),
               bslib::nav_panel(
                 "Acceptance",
-                shinycssloaders::withSpinner(
-                  DT::dataTableOutput("file_table"),
-                  type = 6,
-                  color = "#007AC3",
-                  proxy.height = "300px"
-                ),
+                DT::dataTableOutput("file_table"),
                 p(".", class = "spacer")
               ),
               bslib::nav_panel(

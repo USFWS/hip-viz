@@ -1,7 +1,7 @@
 {
   "version": 1,
   "locale": "en_US",
-  "platform": "4.6.1",
+  "platform": "4.6.2",
   "metadata": {
     "appmode": "shiny",
     "primary_rmd": null,
@@ -2217,7 +2217,7 @@
       "description": {
         "Package": "migbirdHIP",
         "Title": "Process USFWS Migratory Bird Harvest Information Program Data in\nR",
-        "Version": "2026.0.2",
+        "Version": "2026.0.3",
         "Authors@R": "\n    person(\"Abby\", \"Walter\", , \"abby_walter@fws.gov\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0003-4017-5596\"))",
         "Description": "Functions designed to process and visualize data submitted to\n    the USFWS Harvest Information Program.",
         "License": "CC0",
@@ -2238,16 +2238,16 @@
         "RemoteUsername": "USFWS",
         "RemotePkgRef": "USFWS/migbirdHIP",
         "RemoteRef": "HEAD",
-        "RemoteSha": "42b87759a8202ae0bd233ea0f5c5db3ed25f5270",
+        "RemoteSha": "39fa245137c64ed77876cea74cc647ab19482e92",
         "GithubRepo": "migbirdHIP",
         "GithubUsername": "USFWS",
         "GithubRef": "HEAD",
-        "GithubSHA1": "42b87759a8202ae0bd233ea0f5c5db3ed25f5270",
+        "GithubSHA1": "39fa245137c64ed77876cea74cc647ab19482e92",
         "NeedsCompilation": "no",
-        "Packaged": "2026-08-24 20:03:09 UTC; awalter",
+        "Packaged": "2026-10-28 19:12:54 UTC; awalter",
         "Author": "Abby Walter [aut, cre] (ORCID: <https://orcid.org/0000-0003-4017-5596>)",
         "Maintainer": "Abby Walter <abby_walter@fws.gov>",
-        "Built": "R 4.6.1; ; 2026-08-24 20:03:18 UTC; windows"
+        "Built": "R 4.6.1; ; 2026-10-28 19:12:57 UTC; windows"
       }
     },
     "mime": {
@@ -3290,37 +3290,6 @@
         "RemoteSha.Version": "1.14.0"
       }
     },
-    "shinycssloaders": {
-      "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "description": {
-        "Package": "shinycssloaders",
-        "Title": "Add Loading Animations to a 'shiny' Output While It's\nRecalculating",
-        "Version": "1.1.0",
-        "Authors@R": "c(\n    person(\"Dean\",\"Attali\",email=\"daattali@gmail.com\",role=c(\"aut\",\"cre\"),\n        comment = c(\"Maintainer/developer of shinycssloaders since 2019\", ORCID=\"0000-0002-5645-3493\")),\n    person(\"Andras\",\"Sali\",email=\"andras.sali@alphacruncher.hu\",role=c(\"aut\"),comment=\"Original creator of shinycssloaders package\"),\n    person(\"Luke\",\"Hass\",role=c(\"ctb\",\"cph\"),comment=\"Author of included CSS loader code\")\n    )",
-        "Description": "When a 'Shiny' output (such as a plot, table, map, etc.) is recalculating, it remains \n    visible but gets greyed out. Using 'shinycssloaders', you can add a loading animation (\"spinner\")\n    to outputs instead. By wrapping a 'Shiny' output in 'withSpinner()', a spinner will automatically\n    appear while the output is recalculating. You can also manually show and hide the spinner, or add\n    a full-page spinner to cover the entire page.\n    See the demo online at <https://daattali.com/shiny/shinycssloaders-demo/>.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://github.com/daattali/shinycssloaders,\nhttps://daattali.com/shiny/shinycssloaders-demo/",
-        "BugReports": "https://github.com/daattali/shinycssloaders/issues",
-        "Depends": "R (>= 3.1)",
-        "Imports": "digest, glue, grDevices, htmltools (>= 0.3.5), shiny",
-        "Suggests": "knitr, shinydisconnect, shinyjs",
-        "RoxygenNote": "7.2.3",
-        "Encoding": "UTF-8",
-        "NeedsCompilation": "no",
-        "Packaged": "2024-07-30 18:52:48 UTC; Dean",
-        "Author": "Dean Attali [aut, cre] (Maintainer/developer of shinycssloaders since\n    2019, <https://orcid.org/0000-0002-5645-3493>),\n  Andras Sali [aut] (Original creator of shinycssloaders package),\n  Luke Hass [ctb, cph] (Author of included CSS loader code)",
-        "Maintainer": "Dean Attali <daattali@gmail.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2024-07-30 22:30:02 UTC",
-        "Built": "R 4.6.1; ; 2026-07-18 03:34:00 UTC; windows",
-        "RemoteType": "standard",
-        "RemotePkgRef": "shinycssloaders",
-        "RemoteRef": "shinycssloaders",
-        "RemoteRepos": "https://cran.rstudio.com",
-        "RemoteSha.Version": "1.1.0"
-      }
-    },
     "snowflakeauth": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com",
@@ -4079,7 +4048,7 @@
   },
   "files": {
     ".github/workflows/unit-tests.yaml": {
-      "checksum": "59148cba1629302f58b3dfe2c6dd914a"
+      "checksum": "9b71da161577d8d3565253bad94db5ae"
     },
     ".Renviron": {
       "checksum": "293d5c3e350526596e0085904b14d530"
@@ -4088,10 +4057,10 @@
       "checksum": "fc6a59091e5f9ef213685acee474c71c"
     },
     "app.R": {
-      "checksum": "01c6daa81ec22adaa8caced6d44ca366"
+      "checksum": "3cb4c2410d77b2fc969fc786b04b43fc"
     },
     "code.json": {
-      "checksum": "2037145334c15725f28954900e867bc4"
+      "checksum": "4886a3b58c22b36c24a1ae62b773f908"
     },
     "data/2024-2025/DL0800_totals.csv": {
       "checksum": "719379e5a031b75e4547415ac95879f9"
@@ -4211,22 +4180,22 @@
       "checksum": "366fe76780ea72fc7f6dbc9f7e58f9b1"
     },
     "data/2026-2027/db_state_totals_without_carryover.csv": {
-      "checksum": "d596fae05177981b41337a2f792c3c0e"
+      "checksum": "9c3a1a2fa402ecd958785d5ad19acb8a"
     },
     "data/2026-2027/db_state_tots.csv": {
-      "checksum": "02039a6b52f2a770077e316818a93f94"
+      "checksum": "1bac6d7918d5abfe074a6682126026ad"
     },
     "data/2026-2027/db_state_tots_2025-2026.csv": {
       "checksum": "ea383eddd601763e4b2328f0e70bfc1c"
     },
     "data/2026-2027/db_tots.csv": {
-      "checksum": "717017ee0a97534b4a8ac4cf0f72cb78"
+      "checksum": "39d362510a1da107fc2a9f2100a7b93a"
     },
     "data/2026-2027/db_tots_2025-2026.csv": {
       "checksum": "2d678459746a38e10470f86a07326ba1"
     },
     "data/2026-2027/db_tots_carryover.csv": {
-      "checksum": "05d166629c244cfede5e2b4937365bda"
+      "checksum": "23ae86a4e74ed68db6c29e66e24c1605"
     },
     "data/2026-2027/DL0800_sums.csv": {
       "checksum": "054c77ce6672697af581706c87ce91b9"
@@ -4240,8 +4209,17 @@
     "data/2026-2027/DL0902_sums.csv": {
       "checksum": "d063da2d6a001373f43bff8e3c581569"
     },
+    "data/2026-2027/DL1001_sums.csv": {
+      "checksum": "e714ea76f745b7555fcd5b4390b34e39"
+    },
+    "data/2026-2027/DL1002_sums.csv": {
+      "checksum": "36084a152644be344805a1bc3eb9215e"
+    },
+    "data/2026-2027/DL1101_sums.csv": {
+      "checksum": "63f24f472bac37fa4fbd1f3814b0ab73"
+    },
     "data/2026-2027/issue_date_summary.csv": {
-      "checksum": "166a4407548c2d8fbffe47cbdcdf519c"
+      "checksum": "e7f1eb6b3bf164064e4669d4aefda586"
     },
     "DISCLAIMER.md": {
       "checksum": "bbc62c1c9c11628df11a4fb9d6422794"
@@ -4262,7 +4240,7 @@
       "checksum": "5f0c71457df0f821ff979afc9d2d5a91"
     },
     "NEWS.md": {
-      "checksum": "070fb41ceb0f05dacb19c72097654670"
+      "checksum": "9bc36275b5658ef51e96ef57a42a501b"
     },
     "R/pin_spec.R": {
       "checksum": "2e6a5c51a38ef79466838f8600eab574"
@@ -4275,9 +4253,6 @@
     },
     "style.scss": {
       "checksum": "aec2377cd65ff444ac9029d522ce8ded"
-    },
-    "tests/testthat/test-magic_number.R": {
-      "checksum": "3abc8b9c81c3c10ed4a5d655798780fa"
     },
     "tests/testthat/test-pin-contract.R": {
       "checksum": "63596d25609dd8d2b05bcbc8bea25ba4"
